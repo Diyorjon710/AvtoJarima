@@ -21,6 +21,7 @@ return new class extends Migration
             $table->float("car_jarima_narxi");
             $table->string("car_image", 255);
             $table->string("car_location", 255);
+            $table->unsignedBigInteger("viloyat_id");
             $table->foreign('viloyat_id')->references('id')->on('viloyatlar');
             $table->timestamps();
         });

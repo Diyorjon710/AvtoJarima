@@ -4,7 +4,7 @@
         <header class="main-header">
             <div class="header-main__logo">
                 <a href="#">
-                    <img src="/assets/img/logo.png" alt="Logo">
+                    <img src="/assets/main-page/img/logo.png" alt="Logo">
                 </a>
             </div>
             <div class="main-header__languages">
@@ -15,13 +15,13 @@
                     <img class="main-header__app" src="/assets/img/google-play.png" alt="google-play">
                 </a>
                 <a href="#">
-                    <img class="main-header__flag" src="/assets/img/uzbflag.png" alt="Uzb flag">
+                    <img class="main-header__flag" src="/assets/main-page/img/uzbflag.png" alt="Uzb flag">
                 </a>
                 <a href="#">
-                    <img class="main-header__flag" src="/assets/img/rusflag.jpg" alt="Rus flag">
+                    <img class="main-header__flag" src="/assets/main-page/img/rusflag.jpg" alt="Rus flag">
                 </a>
                 <a href="#">
-                    <img class="main-header__flag" src="/assets/img/usaflag.jpg" alt="USA flag">
+                    <img class="main-header__flag" src="/assets/main-page/img/usaflag.jpg" alt="USA flag">
                 </a>
             </div>
 

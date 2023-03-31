@@ -3,10 +3,16 @@
     <div class="header-title">Biz bilan mashinangizni <span>qiynalmay</span> toping</div>
     <div class="header-subtitle">Mashinangiz hozirda qaysi jarima maydonchasida ekanligi <br> haqida to'liq ma'lumot oling</div>
     <div class="header-radio">
-        <label for="yuridik-shaxs">Yuridik shaxs</label>
-        <input type="radio" name="shaxs" id="yuridik-shaxs">
-        <label for="jismoniy-shaxs">Jismoniy shaxs</label>
-        <input type="radio" name="shaxs" id="jismoniy-shaxs">
+        <label class="container">
+            <input type="radio" checked="checked" name="shaxs" value="yuridik">
+            <span class="checkmark"></span>
+            Yuridik shaxs
+        </label>
+        <label class="container">
+            <input type="radio" name="shaxs" value="jismoniy">
+            <span class="checkmark"></span>
+            Jismoniy shaxs
+        </label>
     </div>
     <div class="header-search">
         <div class="search-container">
@@ -36,19 +42,48 @@ export default {
 <style scoped>
 
 .header-container {
-    margin-top: 200px;
+    margin-top: 180px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .header-title {
-    font-size: 52px;
+    font-size: 3.25rem;
     text-align: center;
+    font-family: Inter-Semibold;
+    letter-spacing: -2.5px;
+}
+
+.header-title span {
+    color: var(--primary-blue);
 }
 
 .header-subtitle {
     text-align: center;
     font-size: 1rem;
-    margin-top: 50px;
+    margin: 2.5rem 0;
+    font-family: Inter-Regular;
+    opacity: 0.5;
+}
+
+.header-radio {
+    font-family: Inter-Regular;
+    font-size: 1rem;
+    display: flex;
+    width: 300px;
+    margin-bottom: 2rem;
+}
+
+.header-radio label {
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.header-search {
+    width: 390px;
 }
 
 </style>

@@ -3,15 +3,15 @@
         <nav>
             <div class="navbar-left">
                 <div class="navbar-left__img">
-                    <img src="http://avtojarima.loc/assets/main-page/img/image-7.png" alt="LOGO">
+                    <img src="/assets/main-page/img/logo.png" alt="LOGO">
                 </div>
             </div>
             <div class="navbar-right">
                 <div class="navbar-items">
                     <ul>
                         <li><router-link to='/'>Biz haqimizda</router-link></li>
-                        <li><router-link to='/'>Biz haqimizda</router-link></li>
-                        <li><router-link to='/'>Biz haqimizda</router-link></li>
+                        <li><router-link to='/'>Jarima maydonlari</router-link></li>
+                        <li><router-link to='/'>Aloqa</router-link></li>
                     </ul>
                 </div>
             </div>
@@ -29,7 +29,6 @@ export default {
 
 .navbar-container {
     margin: 50px 250px;
-
 }
 
 nav {
@@ -47,12 +46,23 @@ nav {
 
 .navbar-items ul li {
     margin: 0 10px;
+    font-family: Inter-Regular;
+    font-size: 1rem;
 }
 
 .navbar-items ul a {
     color: black;
     text-decoration: none;
     font-size: 1rem;
+}
+
+.navbar-left__img {
+    width: 150px;
+}
+
+.navbar-left__img img {
+    width: 100%;
+    object-fit: cover;
 }
 
 </style>

@@ -18,7 +18,7 @@ class MaydonlarSeeder extends Seeder
         Maydonlar::create([
             'id' => 1,
             'maydon_nomi' => 'Qumariq 12/1',
-            'maydon_lokatsiyasi'=> "jsljh498uoihrfha",
+            'maydon_lokatsiyasi'=> 'jsljh498uoihrfha',
         ]);
     }
 }

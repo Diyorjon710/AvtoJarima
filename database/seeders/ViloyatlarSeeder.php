@@ -18,7 +18,7 @@ class ViloyatlarSeeder extends Seeder
         Viloyatlar::create([
             'id' => 1,
             'viloyat_nomi' => 'Toshkent shahar',
-            'viloyat_raqami' => 01,
+            'viloyat_raqami' => '01',
             'tuman_id' => 1,
         ]);
     }

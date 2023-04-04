@@ -1,20 +1,21 @@
 <template>
-    <the-navbar/>
-    <Header/>
-  
+    <div class="main-container">
+        <the-navbar/>
+        <the-header/>
+    </div>
 </template>
 
 <script>
-import TheNavbar from '../components/ui/TheNavbar.vue'
-import Header from '../components/Header.vue'
+import TheNavbar from '../components/TheNavbar.vue'
+import TheHeader from '../components/TheHeader.vue'
 
 export default {
     name: 'MainView',
-    components: { TheNavbar, Header },
+    components: { TheNavbar, TheHeader },
 
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

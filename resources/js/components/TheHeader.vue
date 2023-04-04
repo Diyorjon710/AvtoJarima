@@ -19,13 +19,13 @@
             <form action="">
                 <select name="" id="">
                     <option value="Tashkent shahar">01</option>
-                    <option value="Tashkent shahar">01</option>
-                    <option value="Tashkent shahar">01</option>
-                    <option value="Tashkent shahar">01</option>
-                    <option value="Tashkent shahar">01</option>
+                    <option value="Tashkent shahar">02</option>
+                    <option value="Tashkent shahar">03</option>
+                    <option value="Tashkent shahar">04</option>
+                    <option value="Tashkent shahar">05</option>
                 </select>
 
-                <input type="text" placeholder="A 123 AB">
+                <input maxlength="6" type="text" placeholder="A 123 AB">
                 <button type="submit">Qidiruv</button>
             </form>
         </div>
@@ -84,6 +84,50 @@ export default {
 
 .header-search {
     width: 390px;
+}
+
+.search-container {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.search-container form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-container form select {
+    border: none;
+    font-family: Inter-Regular;
+    font-size: 1.3rem;
+    cursor: pointer;
+    outline: none;
+    opacity: 0.5;
+}
+
+.search-container form input {
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 1.3rem;
+    font-family: Inter-Regular;
+    overflow: hidden;
+    width: 40%;
+    border-left: 1px solid;
+    height: 100%;
+}
+
+.search-container form button {
+    width: 110px;
+    height: 45px;
+    background-color: var(--primary-blue);
+    border: none;
+    border-radius: 5px;
+    font-family: Inter-Regular;
+    font-size: 1rem;
+    color: white;
 }
 
 </style>

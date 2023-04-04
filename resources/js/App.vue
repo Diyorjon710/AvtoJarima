@@ -12,6 +12,7 @@ export default {
 
 :root {
     --primary-blue: #3092FD;
+    --primary-white: #F5F5F7;
 }
 
 @font-face {
@@ -34,6 +35,7 @@ html, body {
     margin: 0;
     text-decoration: none;
     font-family: sans-serif, Arial, "Droid Sans", "Segoe UI", Inter;
+    background-color: var(--primary-white);
 }
 
 </style>

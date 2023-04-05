@@ -25,7 +25,7 @@
                     <option value="Tashkent shahar">05</option>
                 </select>
 
-                <input maxlength="6" type="text" placeholder="A 123 AB">
+                <input maxlength="6" type="text" placeholder="A 123 AB" v-model="carMainNumber" @input="validateCarMainNumber">
                 <button type="submit">Qidiruv</button>
             </form>
         </div>
@@ -35,7 +35,50 @@
 
 <script>
 export default {
+    name: 'TheHeader',
 
+    data() {
+        return {
+            carCountryNumber: null,
+            carMainNumber: null,
+            personType: null,
+        }
+    },
+
+    methods: {
+        // validateCountryNumber() {
+        //     if(/^-?\d+$/.test(this.carCountryNumber)) {
+        //         console.log('true')
+        //         console.log(this.carCountryNumber)
+        //     }
+        // },
+
+        validateCarMainNumber() {
+            let regex1 = /^[A-Za-z]/
+            let regex2 = /\d$/g
+            let regex3 = /[A-Za-z]/
+
+            if(!this.carMainNumber[0].match(regex1)) {
+                this.carMainNumber = ''
+            }
+
+            if(this.carMainNumber.slice(1,4)) {
+                for(let i = 1; i <= 3; i++) {
+                    if(!this.carMainNumber[i].match(regex2)) {
+                        this.carMainNumber = this.carMainNumber.slice(0, i)
+                    }
+                }
+            }
+
+            if(this.carMainNumber.slice(4,6)) {
+                for(let i = 4; i <= 5; i++) {
+                    if(!this.carMainNumber[i].match(regex3)) {
+                        this.carMainNumber = this.carMainNumber.slice(0, i)
+                    }
+                }
+            }
+        }
+    },
 }
 </script>
 
@@ -117,6 +160,7 @@ export default {
     width: 40%;
     border-left: 1px solid;
     height: 100%;
+    text-transform: uppercase;
 }
 
 .search-container form button {

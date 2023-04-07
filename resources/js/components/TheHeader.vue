@@ -18,11 +18,11 @@
     <div class="header-search">
         <div class="search-container">
             <form action="" @submit.prevent="searchCar">
-                <select name="" v-model="carCountryNumber">
-                    <option v-for="country in countryCodes" :value="country.name">{{ country.code }}</option>
+                <select name="country-code" v-model="carCountryNumber">
+                    <option :selected="country.selected" v-for="country in countryCodes" :value="country.name">{{ country.code }}</option>
                 </select>
 
-                <input maxlength="6" type="text" :placeholder="inputPlaceholder" v-model="carMainNumber" @input="validateCarMainNumber">
+                <input maxlength="6" type="text" name="main-number" :placeholder="inputPlaceholder" v-model="carMainNumber" @input="validateCarMainNumber">
                 <button type="submit">Qidiruv</button>
             </form>
         </div>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'TheHeader',
 
@@ -42,11 +43,11 @@ export default {
             inputPlaceholder: 'A 123 AB',
 
             countryCodes: [
-                {id: 1, code: '01', name: 'Toshkent shaxar'},
-                {id: 2, code: '02', name: 'Toshkent shaxar2'},
-                {id: 3, code: '03', name: 'Toshkent shaxar3'},
-                {id: 4, code: '04', name: 'Toshkent shaxar4'},
-                {id: 5, code: '05', name: 'Toshkent shaxar5'},
+                {id: 1, code: '01', name: 'Toshkent shahar', selected: true},
+                {id: 2, code: '02', name: 'Toshkent shahar1'},
+                {id: 3, code: '03', name: 'Toshkent shahar2'},
+                {id: 4, code: '04', name: 'Toshkent shahar3'},
+                {id: 5, code: '05', name: 'Toshkent shahar4'},
             ]
         }
     },
@@ -101,7 +102,18 @@ export default {
         },
 
         searchCar() {
-            console.log(this.carCountryNumber + ' | ' + this.carMainNumber)
+            axios
+                .post('/api/search-car', {
+                    'main-number': this.carMainNumber.toUpperCase(),
+                    'country-code': this.carCountryNumber,
+                })
+                .then(response => {
+                    console.log('status: ', response.data.status)
+                    console.log(response.data)
+                })
+                .catch(error => {
+                    console.log(error.response.data.data)
+                })
         }
     },
 

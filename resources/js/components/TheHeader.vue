@@ -44,10 +44,19 @@ export default {
 
             countryCodes: [
                 {id: 1, code: '01', name: 'Toshkent shahar', selected: true},
-                {id: 2, code: '02', name: 'Toshkent shahar1'},
-                {id: 3, code: '03', name: 'Toshkent shahar2'},
-                {id: 4, code: '04', name: 'Toshkent shahar3'},
-                {id: 5, code: '05', name: 'Toshkent shahar4'},
+                {id: 2, code: '10', name: 'Toshkent viloyati'},
+                {id: 3, code: '20', name: 'Sirdaryo viloyati'},
+                {id: 4, code: '25', name: 'Jizzax viloyati'},
+                {id: 5, code: '30', name: 'Samarqand viloyati'},
+                {id: 6, code: '40', name: 'Farg\'ona viloyati'},
+                {id: 7, code: '50', name: 'Namangan viloyati'},
+                {id: 8, code: '60', name: 'Andijon viloyati'},
+                {id: 9, code: '70', name: 'Qashqadaryo viloyati'},
+                {id: 10, code: '75', name: 'Surxondaryo viloyati'},
+                {id: 11, code: '80', name: 'Buxoro viloyati'},
+                {id: 12, code: '85', name: 'Navoiy viloyati'},
+                {id: 13, code: '90', name: 'Xorazm viloyati'},
+                {id: 14, code: '95', name: 'Qoraqalpog\'iston Respublikasi'},
             ]
         }
     },

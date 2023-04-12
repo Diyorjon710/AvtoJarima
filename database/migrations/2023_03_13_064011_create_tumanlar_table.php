@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('tumanlar', function (Blueprint $table) {
             $table->id();
             $table->string("tuman_nomi", 255);
-            $table->unsignedBigInteger("maydon_id");
-            $table->foreign('maydon_id')->references('id')->on('maydonlar');
+            $table->unsignedBigInteger("viloyat_id");
+            $table->foreign('viloyat_id')->references('id')->on('viloyatlar');
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ class MaydonlarSeeder extends Seeder
             'id' => 1,
             'maydon_nomi' => 'Qumariq 12/1',
             'maydon_lokatsiyasi'=> 'jsljh498uoihrfha',
+            'tuman_id'=>8,
         ]);
     }
 }

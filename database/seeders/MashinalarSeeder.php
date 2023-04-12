@@ -22,8 +22,7 @@ class MashinalarSeeder extends Seeder
             'car_jarimasi' => 'Palasani bosgan',
             'car_jarima_narxi' => 120000,
             'car_image' => 'smpdmkfps.jpg',
-            'car_location' => 'ajfhldjf',
-            'viloyat_id' => 1,
+            'maydon_id' => 1,
         ]);
     }
 }

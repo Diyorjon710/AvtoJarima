@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string("maydon_nomi");
             $table->string("maydon_lokatsiyasi");
+            $table->unsignedBigInteger("tuman_id");
+            $table->foreign('tuman_id')->references('id')->on('tumanlar');
             $table->timestamps();
         });
     }

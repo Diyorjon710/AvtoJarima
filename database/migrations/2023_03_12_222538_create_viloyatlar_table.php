@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('viloyatlar', function (Blueprint $table) {
             $table->id();
             $table->string("viloyat_nomi", 50);
-            $table->integer("viloyat_raqami");
+            $table->string("viloyat_raqami");
             $table->timestamps();
         });
     }

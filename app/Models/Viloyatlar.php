@@ -12,11 +12,11 @@ class Viloyatlar extends Model
 
     protected $table =  "viloyatlar";
 
-    public function tumanlar(){
-        return $this->hasMany(Tumanlar::class);
+
+
+    public function tuman(){
+        $this->belongsTo(Tumanlar::class);
     }
 
-    public function mashina(){
-        $this->belongsTo(Mashinalar::class);
-    }
+
 }

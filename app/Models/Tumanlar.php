@@ -11,11 +11,13 @@ class Tumanlar extends Model
 
     protected $table =  "tumanlar";
 
-    public function maydonlar(){
-        return $this->hasMany(Maydonlar::class);
+
+
+    public function viloyatlar(){
+        return $this->hasMany(Viloyatlar::class);
     }
 
-    public function viloyat(){
-        $this->belongsTo(Viloyatlar::class);
+    public function maydon(){
+        $this->belongsTo(Maydonlar::class);
     }
 }

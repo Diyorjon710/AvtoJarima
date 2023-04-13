@@ -23,6 +23,8 @@ class MashinalarSeeder extends Seeder
             'car_jarima_narxi' => 120000,
             'car_image' => 'smpdmkfps.jpg',
             'maydon_id' => 1,
+            'viloyat_id' => 1,
+            'tuman_id' => 8,
         ]);
     }
 }

@@ -32,7 +32,7 @@
             <button>Ko'rish</button>
         </div>
         <div class="location-map">
-            <img src="/assets/main-page/img/maps.png" alt="MAP">
+            <div id="map" style="height: 400px;"></div>
         </div>
     </div>
 </template>
@@ -42,8 +42,21 @@
 export default {
     name: "AreaLocation",
 
+    setup() {
+
+
+            function initMap() {
+                var opt = {
+                    center: {lat: 40.712776, lng: -74.005974},
+                    zoom: 4
+                };
+            var map = new google.maps.Map(document.getElementById('map'), opt);
+        }
+    }
+
 }
 </script>
+
 
 <style scoped>
 

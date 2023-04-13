@@ -12,7 +12,7 @@ class Mashinalar extends Model
 
     protected $table =  "mashinalar";
 
-    public function viloyatlar(){
-        return $this->hasOne(Viloyatlar::class);
+    public function maydonlar(){
+        return $this->hasMany(Maydonlar::class);
     }
 }

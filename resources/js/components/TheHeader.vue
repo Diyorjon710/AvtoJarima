@@ -37,7 +37,7 @@ export default {
 
     data() {
         return {
-            carCountryNumber: 'Toshkent shaxar',
+            carCountryNumber: 'Toshkent shahar',
             carMainNumber: null,
             personType: 'jismoniy',
             inputPlaceholder: 'A 123 AB',
@@ -121,7 +121,7 @@ export default {
                     console.log(response.data)
                 })
                 .catch(error => {
-                    console.log(error.response.data.data)
+                    console.log(error)
                 })
         }
     },

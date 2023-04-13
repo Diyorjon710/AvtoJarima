@@ -11,8 +11,11 @@ class Maydonlar extends Model
 
     protected $table =  "maydonlar";
 
+    public function tumanlar(){
+        return $this->hasMany(Tumanlar::class);
+    }
 
-    public function tuman(){
-        $this->belongsTo(Tumanlar::class);
+    public function mashina(){
+        $this->belongsTo(Mashinalar::class);
     }
 }

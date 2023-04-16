@@ -22,10 +22,11 @@
                     <option :selected="country.selected" v-for="country in countryCodes" :value="country.name">{{ country.code }}</option>
                 </select>
 
-                <input maxlength="6" type="text" name="main-number" :placeholder="inputPlaceholder" v-model="carMainNumber" @input="validateCarMainNumber">
+                <input required maxlength="6" type="text" name="main-number" :placeholder="inputPlaceholder" v-model="carMainNumber" @input="validateCarMainNumber">
                 <button type="submit">Qidiruv</button>
             </form>
         </div>
+        <p v-if="error" class="error">No data found</p>
     </div>
   </div>
 </template>
@@ -41,6 +42,7 @@ export default {
             carMainNumber: null,
             personType: 'jismoniy',
             inputPlaceholder: 'A 123 AB',
+            error: false,
 
             countryCodes: [
                 {id: 1, code: '01', name: 'Toshkent shahar', selected: true},
@@ -117,11 +119,14 @@ export default {
                     'country-code': this.carCountryNumber,
                 })
                 .then(response => {
-                    console.log('status: ', response.data.status)
-                    console.log(response.data)
+                    this.$store.state.carData = response.data.data[0]
+                    this.$router.push({name: 'Car'})
+
+                    this.error = false
                 })
                 .catch(error => {
                     console.log(error)
+                    this.error = true
                 })
         }
     },
@@ -225,6 +230,14 @@ export default {
     font-family: Inter-Regular;
     font-size: 1rem;
     color: white;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    font-family: Inter-Regular;
+    font-size: 1rem;
+    text-align: center;
 }
 
 </style>

@@ -32,15 +32,31 @@
             <button>Ko'rish</button>
         </div>
         <div class="location-map">
-            <img src="/assets/main-page/img/maps.png" alt="MAP">
+<!--            <img src="/assets/main-page/img/maps.png" alt="MAP">-->
+<!--            <yandex-map :settings="settings"></yandex-map>-->
+            <div id="YMapsID"></div>
         </div>
     </div>
 </template>
 
 <script>
-
 export default {
     name: "AreaLocation",
+
+    setup() {
+        ymaps.ready(function () {
+            var myMap = new ymaps.Map("YMapsID", {
+                center: [41.311153, 69.279729],
+                zoom: 10
+            });
+        });
+    },
+
+    data() {
+        return {
+
+        }
+    }
 }
 </script>
 
@@ -97,8 +113,9 @@ export default {
     margin-top: 50px;
 }
 
-.location-map img {
+.location-map #YMapsID {
     width: 100%;
+    height: 350px;
     object-fit: cover;
 }
 

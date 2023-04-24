@@ -6,12 +6,12 @@
         <title>Laravel</title>
         @vite('resources/css/app.css')
 
-        </head>
+    </head>
     <body>
         <script src="https://api-maps.yandex.ru/2.1?apikey=290b07a7-a3b9-46ab-ac3a-568bda05ed05&load=package.full&lang=uz_UZ">
         </script>
         <div id="app"></div>
-        @vite('resources/js/app.js')
+        @vite('resources/js/client/app.js')
     </body>
 
 </html>

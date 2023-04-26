@@ -25,7 +25,7 @@ class FoydalanuvchilarController extends Controller
             $foydalanuvchilar = DB::table('users')
                 ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
                 ->get();
-        }else{
+        } else {
             $foydalanuvchilar = DB::table('users')
                 ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
                 ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')

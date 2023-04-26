@@ -28,7 +28,7 @@ class MashinalarController extends Controller
          if($mashinalar->isEmpty()){
             return response([
                 'data' => 'Not found',
-                'status' => 'errorwwww',
+                'status' => 'error',
             ], Response::HTTP_NOT_FOUND);
          } else {
             return response([

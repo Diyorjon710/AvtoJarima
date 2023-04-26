@@ -5,11 +5,6 @@ const router = createRouter({
 
     routes: [
         {
-            path: '/',
-            name: 'home',
-            component: () => import('../AppAdmin.vue')
-        },
-        {
             path: '/login',
             name: 'login',
             component: () => import('../views/Login.vue')
@@ -18,6 +13,21 @@ const router = createRouter({
             path: '/dashboard',
             name: 'dashboard',
             component: () => import('../views/Dashboard.vue')
+        },
+        {
+            path: '/users',
+            name: 'users',
+            component: () => import('../views/Users.vue')
+        },
+        {
+            path: '/cars',
+            name: 'cars',
+            component: () => import('../views/Cars.vue')
+        },
+        {
+            path: '/areas',
+            name: 'areas',
+            component: () => import('../views/Areas.vue')
         }
     ]
 })

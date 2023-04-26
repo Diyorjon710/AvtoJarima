@@ -10,6 +10,41 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FoydalanuvchilarController extends Controller
 {
+    public function search(Request $request) {
+        $query = $request->get('query');
+
+        $foydalanuvchilar = DB::table('users')
+            ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
+            ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
+            ->join('maydonlar', 'users.maydon_id', '=', 'maydonlar.id')
+            ->where('users.name', 'LIKE', "%{$query}%")
+            ->orWhere('users.surname', 'LIKE', "%{$query}%")
+            ->orWhere('users.phone_number', 'LIKE', "%{$query}%")
+            ->orWhere('users.username', 'LIKE', "%{$query}%")
+            ->orWhere('users.password', 'LIKE', "%{$query}%")
+            ->orWhere('users.role', 'LIKE', "%{$query}%")
+            ->orWhere('users.permissions', 'LIKE', "%{$query}%")
+            ->orWhere('users.created_at', 'LIKE', "%{$query}%")
+            ->orWhere('viloyatlar.viloyat_nomi', 'LIKE', "%{$query}%")
+            ->orWhere('tumanlar.tuman_nomi', 'LIKE', "%{$query}%")
+            ->orWhere('maydonlar.maydon_nomi', 'LIKE', "%{$query}%")
+            ->get();
+
+
+        if($foydalanuvchilar->isEmpty()) {
+            return response([
+                'data' => 'Not found',
+                'status' => 'error',
+            ], Response::HTTP_NOT_FOUND);
+        } else {
+            return response([
+                'data' => $foydalanuvchilar,
+                'status' => 'success',
+            ], Response::HTTP_OK);
+        }
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +60,7 @@ class FoydalanuvchilarController extends Controller
             $foydalanuvchilar = DB::table('users')
                 ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
                 ->get();
-        }else{
+        } else {
             $foydalanuvchilar = DB::table('users')
                 ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
                 ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')

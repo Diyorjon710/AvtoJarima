@@ -23,11 +23,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/search-car', [SearchController::class, 'index']);
-Route::get('/all-cars', [MashinalarController::class, 'index']);
-Route::get('/all-users', [FoydalanuvchilarController::class, 'index']);
-Route::get('/all-areas', [MaydonlarController::class, 'index']);
+Route::post('search-car', [SearchController::class, 'index']);
 
-Route::post('/create-car', [MashinalarController::class, 'store']);
-Route::put('/update-car/{id}', [MashinalarController::class, 'update']);
+Route::get('all-cars', [MashinalarController::class, 'index']);
+Route::get('all-users', [FoydalanuvchilarController::class, 'index']);
+Route::get('all-areas', [MaydonlarController::class, 'index']);
 
+/* CRUD Cars */
+Route::post('search-car', [MashinalarController::class, 'search']);
+Route::post('create-car', [MashinalarController::class, 'store']);
+Route::put('update-car/{id}', [MashinalarController::class, 'update']);
+Route::delete('delete-car/{id}', [MashinalarController::class, 'destroy']);
+
+/* CRUD Users */
+Route::post('search-user', [FoydalanuvchilarController::class, 'search']);
+Route::post('create-user', [FoydalanuvchilarController::class, 'store']);
+Route::put('update-user/{id}', [FoydalanuvchilarController::class, 'update']);
+Route::delete('delete-user/{id}', [FoydalanuvchilarController::class, 'destroy']);
+
+/* CRUD Areas */
+Route::post('search-area', [MaydonlarController::class, 'search']);
+Route::post('create-area', [MaydonlarController::class, 'store']);
+Route::put('update-area/{id}', [MaydonlarController::class, 'update']);
+Route::delete('delete-area/{id}', [MaydonlarController::class, 'destroy']);

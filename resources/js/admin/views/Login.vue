@@ -15,12 +15,12 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Hush kelibsiz!</h1>
                                     </div>
-                                    <p class="text-center text-danger">{{ this.error }}</p>
+                                    <p class="text-center text-danger">error text here</p>
                                     <form class="user" @submit.prevent="login">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                    id="exampleInputEmail" aria-describedby="emailHelp"
-                                                   placeholder="Emailni kiriting..." name="email" v-model="email">
+                                                   placeholder="Emailni kiriting..." name="email" v-model="username">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
@@ -29,9 +29,6 @@
                                         <input class="btn btn-primary btn-user btn-block" type="submit" value="Login"/>
                                     </form>
                                     <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="#">Parolni unutdingizmi?</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +41,28 @@
 
 <script>
 export default {
-    name: "Login"
+    name: "Login",
+    emits: ['admin-logged'],
+
+    data() {
+        return {
+            username: '',
+            password: '',
+        }
+    },
+
+    methods: {
+        login() {
+            localStorage.setItem('token', 'token');
+            localStorage.setItem('created_at', JSON.stringify({date: new Date()}));
+            localStorage.setItem('adminData', JSON.stringify({
+                name: 'Admin',
+                email: 'admin@app.com'
+            }))
+
+            this.$emit('admin-logged')
+        }
+    }
 }
 </script>
 

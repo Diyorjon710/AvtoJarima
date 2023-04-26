@@ -12,6 +12,37 @@ use Illuminate\Support\Facades\File;
 
 class MashinalarController extends Controller
 {
+    public function search(Request $request) {
+        $query = $request->get('query');
+
+        $mashinalar = DB::table('mashinalar')
+            ->join('viloyatlar', 'mashinalar.viloyat_id', '=', 'viloyatlar.id')
+            ->join('tumanlar', 'mashinalar.tuman_id', '=', 'tumanlar.id')
+            ->join('maydonlar', 'mashinalar.maydon_id', '=', 'maydonlar.id')
+            ->where('car_name', 'LIKE', "%{$query}%")
+            ->orWhere('car_number', 'LIKE', "%{$query}%")
+            ->orWhere('car_jarimasi', 'LIKE', "%{$query}%")
+            ->orWhere('car_jarima_narxi', 'LIKE', "%{$query}%")
+            ->orWhere('mashinalar.created_at', 'LIKE', "%{$query}%")
+            ->orWhere('viloyatlar.viloyat_nomi', 'LIKE', "%{$query}%")
+            ->orWhere('tumanlar.tuman_nomi', 'LIKE', "%{$query}%")
+            ->orWhere('maydonlar.maydon_nomi', 'LIKE', "%{$query}%")
+            ->get();
+
+        if($mashinalar->isEmpty()) {
+            return response([
+                'data' => 'Not found',
+                'status' => 'error',
+            ], Response::HTTP_NOT_FOUND);
+        } else {
+            return response([
+                'data' => $mashinalar,
+                'status' => 'success',
+            ], Response::HTTP_OK);
+        }
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +59,7 @@ class MashinalarController extends Controller
          if($mashinalar->isEmpty()){
             return response([
                 'data' => 'Not found',
-                'status' => 'errorwwww',
+                'status' => 'error',
             ], Response::HTTP_NOT_FOUND);
          } else {
             return response([

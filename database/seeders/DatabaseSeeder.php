@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Mashinalar;
+use App\Models\User;
 use App\Models\Viloyatlar;
 use Illuminate\Database\Seeder;
 
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             TumanlarSeeder::class,
             MaydonlarSeeder::class,
             MashinalarSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

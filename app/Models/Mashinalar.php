@@ -11,6 +11,16 @@ class Mashinalar extends Model
 
 
     protected $table =  "mashinalar";
+    protected $fillable = [
+        'car_name',
+        'car_number',
+        'car_jarimasi',
+        'car_jarima_narxi',
+        'car_image',
+        'maydon_id',
+        'tuman_id',
+        'viloyat_id',
+    ];
 
     public function maydonlar(){
         return $this->hasMany(Maydonlar::class);

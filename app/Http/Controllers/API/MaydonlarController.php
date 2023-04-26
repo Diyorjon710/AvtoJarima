@@ -9,6 +9,31 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MaydonlarController extends Controller
 {
+    public function search(Request $request) {
+        $query = $request->get('query');
+
+        $maydonlar = DB::table('maydonlar')
+            ->join('tumanlar', 'maydonlar.tuman_id', '=', 'tumanlar.id')
+            ->where('maydon_nomi', 'LIKE', "%{$query}%")
+            ->orWhere('maydon_lokatsiyasi', 'LIKE', "%{$query}%")
+            ->orWhere('maydonlar.created_at', 'LIKE', "%{$query}%")
+            ->orWhere('tumanlar.tuman_nomi', 'LIKE', "%{$query}%")
+            ->get();
+
+        if($maydonlar->isEmpty()) {
+            return response([
+                'data' => 'Not found',
+                'status' => 'error',
+            ], Response::HTTP_NOT_FOUND);
+        } else {
+            return response([
+                'data' => $maydonlar,
+                'status' => 'success',
+            ], Response::HTTP_OK);
+        }
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -36,12 +61,10 @@ class MaydonlarController extends Controller
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response([
-                'data' => [$get_viloyat,$maydonlar],
+                'data' => [[$get_viloyat,$maydonlar]],
                 'status' => 'success',
             ], Response::HTTP_OK);
         }
-
-
     }
 
     /**

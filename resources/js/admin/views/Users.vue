@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <p style="color: red;">error text here</p>
+<!--                        <p style="color: red;">error text here</p>-->
 
                         <div class="modal fade" id="addUserModal">
                             <div class="modal-dialog">
@@ -116,7 +116,7 @@
                                             aria-label="Name: activate to sort column descending"
                                             style="width: 20px"
                                         >
-                                            №
+                                            Id
                                         </th>
                                         <th
                                             class="sorting"
@@ -127,7 +127,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            Ismi
+                                            FIO
                                         </th>
                                         <th
                                             class="sorting"
@@ -138,7 +138,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            Email
+                                            Telefon
                                         </th>
                                         <th
                                             class="sorting"
@@ -149,7 +149,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            User id
+                                            Username
                                         </th>
                                         <th
                                             class="sorting"
@@ -171,27 +171,66 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
+                                            Role
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
+                                            Ruhsatlar
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
+                                            Viloyat
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
                                             Tahrirlash
                                         </th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th rowspan="1" colspan="1">№</th>
-                                        <th rowspan="1" colspan="1">Ismi</th>
-                                        <th rowspan="1" colspan="1">Email</th>
-                                        <th rowspan="1" colspan="1">User id</th>
+                                        <th rowspan="1" colspan="1">Id</th>
+                                        <th rowspan="1" colspan="1">FIO</th>
+                                        <th rowspan="1" colspan="1">Telefon</th>
+                                        <th rowspan="1" colspan="1">Username</th>
                                         <th rowspan="1" colspan="1">Parol</th>
+                                        <th rowspan="1" colspan="1">Role</th>
+                                        <th rowspan="1" colspan="1">Ruhsatlar</th>
+                                        <th rowspan="1" colspan="1">Viloyat</th>
                                         <th rowspan="1" colspan="1">Tahrirlash</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
                                     <tr class="odd" v-for="(user, idx) in allUsers">
-                                        <td class="sorting_1">{{ idx }}</td>
-                                        <td>{{ user.name }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.id }}</td>
+                                        <td class="sorting_1">{{ user.id }}</td>
+                                        <td>{{ user.name + ' ' + user.surname }}</td>
+                                        <td>{{ user.phone_number }}</td>
+                                        <td>{{ user.username }}</td>
                                         <td>{{ user.password }}</td>
+                                        <td>{{ user.role }}</td>
+                                        <td>{{ user.permissions }}</td>
+                                        <td>{{ user.viloyat_nomi }}</td>
                                         <td>
                                             <button
                                                 data-toggle="modal" data-target="#updateUserModal"
@@ -241,24 +280,26 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "Users",
 
+    created() {
+        this.getAllUsers();
+    },
+
     data() {
         return {
-            allUsers: [
-                {
-                    id: '',
-                    name: '',
-                    email: '',
-                    password: '',}
-            ],
+            searchValue: '',
             links: [],
+            allUsers: [],
             newUserInfo: {
                 name: '',
                 email: '',
                 password: '',
             },
+
             updateUserInfo: [
                 {
                     user_id: '',
@@ -269,6 +310,31 @@ export default {
             ],
         }
     },
+
+    methods: {
+        searchUser() {
+            axios
+                .post('/api/search-user', {
+                    query: this.searchValue
+                })
+                .then(res => {
+                    this.allUsers = res.data.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+        getAllUsers() {
+            axios.get('/api/all-users')
+                .then(res => {
+                    this.allUsers = res.data.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+    }
 }
 </script>
 

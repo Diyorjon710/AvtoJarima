@@ -25,6 +25,8 @@ class UserSeeder extends Seeder
             'role' => 'admin',
             'permissions' => "read,update,create,delete",
             'viloyat_id' => 1,
+            'tuman_id' => 1,
+            'maydon_id' => 1,
             ]);
     }
 }

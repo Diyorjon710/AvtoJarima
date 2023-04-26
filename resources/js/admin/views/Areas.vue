@@ -13,7 +13,7 @@
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12 col-md-6 mt-2">
-                                <form @submit.prevent="searchUser" id="dataTable_length" class="dataTables_length">
+                                <form @submit.prevent="searchArea" id="dataTable_length" class="dataTables_length">
                                     <label>
                                         <input
                                             type="search"
@@ -21,7 +21,7 @@
                                             placeholder="Qidiring"
                                             aria-controls="dataTable"
                                             v-model="searchValue"
-                                            @input="searchUser"/>
+                                            @input="searchArea"/>
                                     </label>
                                     <button type="submit" class="btn btn-primary btn-sm ml-2">
                                         <i class="fas fa-search fa-sm"></i>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <p style="color: red;">error text here</p>
+<!--                        <p style="color: red;">error text here</p>-->
 
                         <div class="modal fade" id="addUserModal">
                             <div class="modal-dialog">
@@ -116,7 +116,7 @@
                                             aria-label="Name: activate to sort column descending"
                                             style="width: 20px"
                                         >
-                                            №
+                                            Id
                                         </th>
                                         <th
                                             class="sorting"
@@ -127,7 +127,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            Ismi
+                                            Maydon nomi
                                         </th>
                                         <th
                                             class="sorting"
@@ -138,7 +138,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            Email
+                                            Maydon lokatsiyasi
                                         </th>
                                         <th
                                             class="sorting"
@@ -149,7 +149,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            User id
+                                            Tuman
                                         </th>
                                         <th
                                             class="sorting"
@@ -160,7 +160,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            Parol
+                                            Viloyat
                                         </th>
                                         <th
                                             class="sorting"
@@ -177,21 +177,21 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th rowspan="1" colspan="1">№</th>
-                                        <th rowspan="1" colspan="1">Ismi</th>
-                                        <th rowspan="1" colspan="1">Email</th>
-                                        <th rowspan="1" colspan="1">User id</th>
-                                        <th rowspan="1" colspan="1">Parol</th>
+                                        <th rowspan="1" colspan="1">Id</th>
+                                        <th rowspan="1" colspan="1">Maydon nomi</th>
+                                        <th rowspan="1" colspan="1">Maydon lokatsiyasi</th>
+                                        <th rowspan="1" colspan="1">Tuman</th>
+                                        <th rowspan="1" colspan="1">Viloyat</th>
                                         <th rowspan="1" colspan="1">Tahrirlash</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    <tr class="odd" v-for="(user, idx) in allUsers">
-                                        <td class="sorting_1">{{ idx }}</td>
-                                        <td>{{ user.name }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.id }}</td>
-                                        <td>{{ user.password }}</td>
+                                    <tr class="odd" v-for="(area, idx) in allAreas">
+                                        <td class="sorting_1">{{ area[0][0].id }}</td>
+                                        <td>{{ area[1][0].maydon_nomi }}</td>
+                                        <td>{{ area[1][0].maydon_lokatsiyasi }}</td>
+                                        <td>{{ area[1][0].tuman_nomi }}</td>
+                                        <td>{{ area[0][0].viloyat_nomi }}</td>
                                         <td>
                                             <button
                                                 data-toggle="modal" data-target="#updateUserModal"
@@ -241,18 +241,15 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "Areas",
 
     data() {
         return {
-            allUsers: [
-                {
-                    id: '',
-                    name: '',
-                    email: '',
-                    password: '',}
-            ],
+            searchValue: '',
+            allAreas: [],
             links: [],
             newUserInfo: {
                 name: '',
@@ -269,6 +266,35 @@ export default {
             ],
         }
     },
+
+    created() {
+        this.getAllAreas();
+    },
+
+    methods: {
+        getAllAreas() {
+            axios
+                .get('/api/all-areas').then(res => {
+                    this.allAreas = res.data.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+        searchArea() {
+            axios
+                .post('/api/search-area', {
+                    query: this.searchValue
+                })
+                .then(res => {
+                    this.allAreas = res.data.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+    }
 }
 </script>
 

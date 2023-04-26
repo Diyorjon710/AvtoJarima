@@ -13,7 +13,7 @@
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12 col-md-6 mt-2">
-                                <form @submit.prevent="searchUser" id="dataTable_length" class="dataTables_length">
+                                <form @submit.prevent="searchCar" id="dataTable_length" class="dataTables_length">
                                     <label>
                                         <input
                                             type="search"
@@ -21,13 +21,13 @@
                                             placeholder="Qidiring"
                                             aria-controls="dataTable"
                                             v-model="searchValue"
-                                            @input="searchUser"/>
+                                            @input="searchCar"/>
                                     </label>
                                     <button type="submit" class="btn btn-primary btn-sm ml-2">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
 
-                                    <button @click.stop.prevent="getAllUsers" class="btn btn-success btn-sm ml-2">
+                                    <button @click.stop.prevent="getAllCars" class="btn btn-success btn-sm ml-2">
                                         <i class="fas fa fa-history fa-sm"></i>
                                     </button>
                                 </form>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <p style="color: red;">error text here</p>
+<!--                        <p style="color: red;">error text here</p>-->
 
                         <div class="modal fade" id="addUserModal">
                             <div class="modal-dialog">
@@ -65,7 +65,7 @@
                                         <input type="password" autocomplete="off" required class="form-control mb-3">
                                     </div>
                                     <div class="modal-footer">
-                                        <button @click="addNewUser" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
+                                        <button @click="addNewCar" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                                             aria-label="Name: activate to sort column descending"
                                             style="width: 20px"
                                         >
-                                            №
+                                            Id
                                         </th>
                                         <th
                                             class="sorting"
@@ -127,7 +127,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            Ismi
+                                            Rasm
                                         </th>
                                         <th
                                             class="sorting"
@@ -138,7 +138,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            Email
+                                            Nomi
                                         </th>
                                         <th
                                             class="sorting"
@@ -149,7 +149,7 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            User id
+                                            Raqami
                                         </th>
                                         <th
                                             class="sorting"
@@ -160,7 +160,62 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
-                                            Parol
+                                            Ma'muriy javobgarlik
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
+                                            Jarima narxi
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
+                                            Maydon nomi
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
+                                            Tuman nomi
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
+                                            Viloyat nomi
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
+                                            Sana
                                         </th>
                                         <th
                                             class="sorting"
@@ -177,21 +232,31 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th rowspan="1" colspan="1">№</th>
-                                        <th rowspan="1" colspan="1">Ismi</th>
-                                        <th rowspan="1" colspan="1">Email</th>
-                                        <th rowspan="1" colspan="1">User id</th>
-                                        <th rowspan="1" colspan="1">Parol</th>
+                                        <th rowspan="1" colspan="1">Id</th>
+                                        <th rowspan="1" colspan="1">Rasm</th>
+                                        <th rowspan="1" colspan="1">Nomi</th>
+                                        <th rowspan="1" colspan="1">Raqami</th>
+                                        <th rowspan="1" colspan="1">Ma'muriy javobgarlik</th>
+                                        <th rowspan="1" colspan="1">Jarima narxi</th>
+                                        <th rowspan="1" colspan="1">Maydon nomi</th>
+                                        <th rowspan="1" colspan="1">Tuman nomi</th>
+                                        <th rowspan="1" colspan="1">Viloyat nomi</th>
+                                        <th rowspan="1" colspan="1">Sana</th>
                                         <th rowspan="1" colspan="1">Tahrirlash</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    <tr class="odd" v-for="(user, idx) in allUsers">
-                                        <td class="sorting_1">{{ idx }}</td>
-                                        <td>{{ user.name }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.id }}</td>
-                                        <td>{{ user.password }}</td>
+                                    <tr class="odd" v-for="(car, idx) in allCars">
+                                        <td class="sorting_1">{{ car.id }}</td>
+                                        <td>{{ car.car_image }}</td>
+                                        <td>{{ car.car_name }}</td>
+                                        <td>{{ car.car_number }}</td>
+                                        <td>{{ car.car_jarimasi }}</td>
+                                        <td>{{ car.car_jarima_narxi }}</td>
+                                        <td>{{ car.maydon_nomi }}</td>
+                                        <td>{{ car.tuman_nomi }}</td>
+                                        <td>{{ car.viloyat_nomi }}</td>
+                                        <td>{{ car.created_at }}</td>
                                         <td>
                                             <button
                                                 data-toggle="modal" data-target="#updateUserModal"
@@ -241,18 +306,15 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "Cars",
 
     data() {
         return {
-            allUsers: [
-                {
-                    id: '',
-                    name: '',
-                    email: '',
-                    password: '',}
-            ],
+            searchValue: '',
+            allCars: [],
             links: [],
             newUserInfo: {
                 name: '',
@@ -269,6 +331,35 @@ export default {
             ],
         }
     },
+
+    created() {
+        this.getAllCars();
+    },
+
+    methods: {
+        searchCar() {
+            axios.post('/api/search-car', {
+                query: this.searchValue
+            })
+            .then(res => {
+                this.allCars = res.data.data;
+            })
+            .catch(err => {
+                console.log(err);
+                this.allCars = [];
+            })
+        },
+
+        getAllCars() {
+            axios.get('/api/all-cars')
+                .then(res => {
+                    this.allCars = res.data.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+    }
 }
 </script>
 

@@ -20,7 +20,7 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Foydalanuvchilar
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">4</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ users.length }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -39,7 +39,7 @@
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Mashinalar
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ cars.length }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -58,7 +58,7 @@
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                     Jarima maydonlari
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">6</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ this.areas.length }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -73,8 +73,59 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-    name: "Dashboard"
+    name: "Dashboard",
+
+    data() {
+        return {
+            cars: [],
+            users: [],
+            areas: [],
+        }
+    },
+
+    created() {
+        this.getAllCars();
+        this.getAllUsers();
+        this.getAllAreas();
+    },
+
+    methods: {
+        getAllCars() {
+            axios
+                .get('/api/all-cars')
+                .then(response => {
+                    this.cars = response.data.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+
+        getAllUsers() {
+            axios
+                .get('/api/all-users')
+                .then(response => {
+                    this.users = response.data.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+
+        getAllAreas() {
+            axios
+                .get('/api/all-areas')
+                .then(response => {
+                    this.areas = response.data.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+    }
 }
 </script>
 

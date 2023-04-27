@@ -52,26 +52,26 @@ class FoydalanuvchilarController extends Controller
      */
     public function index()
     {
-        $check_tuman = DB::table('users')
-            ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
-            ->get();
+//        $check_tuman = DB::table('users')
+//            ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
+//            ->get();
 
-        if($check_tuman->isEmpty()){
-            $foydalanuvchilar = DB::table('users')
-                ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
-                ->get();
-        } else {
+//        if($check_tuman->isEmpty()){
+//            $foydalanuvchilar = DB::table('users')
+//                ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
+//                ->get();
+//        } else {
             $foydalanuvchilar = DB::table('users')
                 ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
                 ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
                 ->join('maydonlar', 'users.maydon_id', '=', 'maydonlar.id')
                 ->get();
-        }
+//        }
 
         if($foydalanuvchilar->isEmpty()){
             return response([
                 'data' => 'Not found',
-                'status' => 'errorww',
+                'status' => 'error',
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response([
@@ -158,7 +158,33 @@ class FoydalanuvchilarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $request->get('user');
+
+        $foydalanuvchi = User::find($id);
+
+        $foydalanuvchi->name = $user['name'];
+        $foydalanuvchi->surname = $user['surname'];
+        $foydalanuvchi->phone_number = $user['phone_number'];
+        $foydalanuvchi->username = $user['username'];
+        $foydalanuvchi->password = $user['password'];
+        $foydalanuvchi->role = $user['role'];
+        $foydalanuvchi->permissions = implode(',', $user['permissions']);
+        $foydalanuvchi->viloyat_id = $user['viloyat_nomi'];
+        $foydalanuvchi->tuman_id = $user['tuman_nomi'];
+        $foydalanuvchi->maydon_id = $user['maydon_nomi'];
+        $foydalanuvchi->save();
+
+        if($foydalanuvchi) {
+            return response([
+                'data' => $foydalanuvchi,
+                'status' => 'success',
+            ], Response::HTTP_CREATED);
+        } else {
+            return response([
+                'data' => 'Not found',
+                'status' => 'error',
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 
     /**

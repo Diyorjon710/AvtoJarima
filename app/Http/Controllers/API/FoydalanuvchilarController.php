@@ -99,7 +99,32 @@ class FoydalanuvchilarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = $request->get('user');
+
+        $foydalanuvchi = User::create([
+            'name' => $user['name'],
+            'surname' => $user['surname'],
+            'phone_number' => $user['phone_number'],
+            'username' => $user['username'],
+            'password' => $user['password'],
+            'role' => $user['role'],
+            'permissions' => implode(',', $user['permissions']),
+            'viloyat_id' => $user['viloyat_nomi'],
+            'tuman_id' => $user['tuman_nomi'],
+            'maydon_id' => $user['maydon_nomi'],
+        ]);
+
+        if($foydalanuvchi) {
+            return response([
+                'data' => $foydalanuvchi,
+                'status' => 'success',
+            ], Response::HTTP_CREATED);
+        } else {
+            return response([
+                'data' => 'Not found',
+                'status' => 'error',
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 
     /**

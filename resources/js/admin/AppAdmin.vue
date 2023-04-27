@@ -7,7 +7,7 @@
 
             <!-- Sidebar - Brand -->
             <router-link to="/dashboard" class="sidebar-brand d-flex align-items-center justify-content-center">
-                <img src="/assets/main-page/img/logo.png" alt="LOGO" style="width: 90%">
+                <img src="/assets/img/logo.png" alt="LOGO" style="width: 90%">
             </router-link>
 
             <!-- Divider -->

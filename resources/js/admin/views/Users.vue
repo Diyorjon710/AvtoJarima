@@ -69,9 +69,9 @@
                                         <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newUserInfo[0].password">
                                         Role
                                         <select name="" id="" v-model="newUserInfo[0].role">
-                                            <option value="">Admin</option>
-                                            <option value="">Foydalanuvchi</option>
-                                            <option value="">Operator</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Foydalanuvchi">Foydalanuvchi</option>
+                                            <option value="Operator">Operator</option>
                                         </select> <br> <br>
                                         Ruhsatlar
                                         <form>
@@ -90,21 +90,18 @@
 
                                         Viloyat
                                         <select name="" id="" v-model="newUserInfo[0].viloyat_nomi">
-                                            <option value="">Toshkent shaxar</option>
-                                            <option value="">Toshkent shaxar</option>
-                                            <option value="">Toshkent shaxar</option>
+                                            <option v-for="country in countryCodes" :key="country.id" :value="country.id">{{ country.name }}</option>
                                         </select> <br> <br>
                                         Tuman
                                         <select name="" id="" v-model="newUserInfo[0].tuman_nomi">
-                                            <option value="">Toshkent shaxar</option>
-                                            <option value="">Toshkent shaxar</option>
-                                            <option value="">Toshkent shaxar</option>
+                                            <option value="1">Chilonzor</option>
+                                            <option value="1">Sergeli</option>
+                                            <option value="1">Bodomzor</option>
                                         </select> <br> <br>
                                         Maydon
                                         <select name="" id="" v-model="newUserInfo[0].maydon_nomi">
-                                            <option value="">Toshkent shaxar</option>
-                                            <option value="">Toshkent shaxar</option>
-                                            <option value="">Toshkent shaxar</option>
+                                            <option value="1">Qumariq 12/1</option>
+                                            <option value="1">Toshariq 1/12</option>
                                         </select>
                                     </div>
                                     <div class="modal-footer">
@@ -360,10 +357,11 @@ export default {
 
     data() {
         return {
+            error: false,
             searchValue: '',
             links: [],
             allUsers: [],
-            newUserInfo: {
+            newUserInfo: [{
                 name: '',
                 surname: '',
                 phone_number: null,
@@ -374,7 +372,7 @@ export default {
                 viloyat_nomi: '',
                 tuman_nomi: '',
                 maydon_nomi: '',
-            },
+            }],
 
             updateUserInfo: [
                 {
@@ -384,12 +382,39 @@ export default {
                     password: '',
                 }
             ],
+
+            countryCodes: [
+                {id: 1, code: '01', name: 'Toshkent shahar', selected: true},
+                {id: 2, code: '10', name: 'Toshkent viloyati'},
+                {id: 3, code: '20', name: 'Sirdaryo viloyati'},
+                {id: 4, code: '25', name: 'Jizzax viloyati'},
+                {id: 5, code: '30', name: 'Samarqand viloyati'},
+                {id: 6, code: '40', name: 'Farg\'ona viloyati'},
+                {id: 7, code: '50', name: 'Namangan viloyati'},
+                {id: 8, code: '60', name: 'Andijon viloyati'},
+                {id: 9, code: '70', name: 'Qashqadaryo viloyati'},
+                {id: 10, code: '75', name: 'Surxondaryo viloyati'},
+                {id: 11, code: '80', name: 'Buxoro viloyati'},
+                {id: 12, code: '85', name: 'Navoiy viloyati'},
+                {id: 13, code: '90', name: 'Xorazm viloyati'},
+                {id: 14, code: '95', name: 'Qoraqalpog\'iston Respublikasi'},
+            ]
         }
     },
 
     methods: {
         addNewUser() {
-
+            axios
+                .post('/api/create-user', {
+                    user: this.newUserInfo[0]
+                })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.error = true;
+                })
         },
 
         searchUser() {

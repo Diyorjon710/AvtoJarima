@@ -2,7 +2,7 @@
     <div class="footer-container">
         <div class="footer-nav">
             <div class="logo">
-                <img src="/assets/main-page/img/logo.png" alt="LOGO">
+                <img src="/assets/img/logo-blck.png" alt="LOGO">
             </div>
             <div class="footer-items">
                 <ul>

@@ -58,11 +58,54 @@
                                     </div>
                                     <div class="modal-body">
                                         Ismi
-                                        <input type="text" autocomplete="off" required class="form-control mb-3">
-                                        Email
-                                        <input type="email" autocomplete="off" required class="form-control mb-3">
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newUserInfo[0].name">
+                                        Familiyasi
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newUserInfo[0].surname">
+                                        Telefon
+                                        <input type="tel" autocomplete="off" required class="form-control mb-3" v-model="newUserInfo[0].phone_number">
+                                        Username
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newUserInfo[0].username">
                                         Parol
-                                        <input type="password" autocomplete="off" required class="form-control mb-3">
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newUserInfo[0].password">
+                                        Role
+                                        <select name="" id="" v-model="newUserInfo[0].role">
+                                            <option value="">Admin</option>
+                                            <option value="">Foydalanuvchi</option>
+                                            <option value="">Operator</option>
+                                        </select> <br> <br>
+                                        Ruhsatlar
+                                        <form>
+                                            <input type="checkbox" name="group" id="create" value="create" v-model="newUserInfo[0].permissions">
+                                            <label for="create" > Create </label> <br>
+
+                                            <input type="checkbox" name="group" id="read" value="read" v-model="newUserInfo[0].permissions">
+                                            <label for="read" > Read </label> <br>
+
+                                            <input type="checkbox" name="group" id="update" value="update" v-model="newUserInfo[0].permissions">
+                                            <label for="update" > Upadte </label> <br>
+
+                                            <input type="checkbox" name="group" id="delete" value="delete" v-model="newUserInfo[0].permissions">
+                                            <label for="delete" > Delete</label>
+                                        </form>
+
+                                        Viloyat
+                                        <select name="" id="" v-model="newUserInfo[0].viloyat_nomi">
+                                            <option value="">Toshkent shaxar</option>
+                                            <option value="">Toshkent shaxar</option>
+                                            <option value="">Toshkent shaxar</option>
+                                        </select> <br> <br>
+                                        Tuman
+                                        <select name="" id="" v-model="newUserInfo[0].tuman_nomi">
+                                            <option value="">Toshkent shaxar</option>
+                                            <option value="">Toshkent shaxar</option>
+                                            <option value="">Toshkent shaxar</option>
+                                        </select> <br> <br>
+                                        Maydon
+                                        <select name="" id="" v-model="newUserInfo[0].maydon_nomi">
+                                            <option value="">Toshkent shaxar</option>
+                                            <option value="">Toshkent shaxar</option>
+                                            <option value="">Toshkent shaxar</option>
+                                        </select>
                                     </div>
                                     <div class="modal-footer">
                                         <button @click="addNewUser" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
@@ -204,6 +247,28 @@
                                             aria-label="Position: activate to sort column ascending"
                                             style="width: 96px"
                                         >
+                                            Tuman
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
+                                            Maydon
+                                        </th>
+                                        <th
+                                            class="sorting"
+                                            tabindex="0"
+                                            aria-controls="dataTable"
+                                            rowspan="1"
+                                            colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
+                                            style="width: 96px"
+                                        >
                                             Tahrirlash
                                         </th>
                                     </tr>
@@ -218,6 +283,8 @@
                                         <th rowspan="1" colspan="1">Role</th>
                                         <th rowspan="1" colspan="1">Ruhsatlar</th>
                                         <th rowspan="1" colspan="1">Viloyat</th>
+                                        <th rowspan="1" colspan="1">Tuman</th>
+                                        <th rowspan="1" colspan="1">Maydon</th>
                                         <th rowspan="1" colspan="1">Tahrirlash</th>
                                     </tr>
                                     </tfoot>
@@ -231,6 +298,8 @@
                                         <td>{{ user.role }}</td>
                                         <td>{{ user.permissions }}</td>
                                         <td>{{ user.viloyat_nomi }}</td>
+                                        <td>{{ user.tuman_nomi }}</td>
+                                        <td>{{ user.maydon_nomi }}</td>
                                         <td>
                                             <button
                                                 data-toggle="modal" data-target="#updateUserModal"
@@ -296,8 +365,15 @@ export default {
             allUsers: [],
             newUserInfo: {
                 name: '',
-                email: '',
+                surname: '',
+                phone_number: null,
+                username: '',
                 password: '',
+                role: '',
+                permissions: [],
+                viloyat_nomi: '',
+                tuman_nomi: '',
+                maydon_nomi: '',
             },
 
             updateUserInfo: [
@@ -312,6 +388,10 @@ export default {
     },
 
     methods: {
+        addNewUser() {
+
+        },
+
         searchUser() {
             axios
                 .post('/api/search-user', {

@@ -41,27 +41,19 @@ class MaydonlarController extends Controller
      */
     public function index()
     {
-        $get_tuman_id = DB::table('maydonlar')
-            ->pluck('tuman_id');
-
-
-        $get_viloyat = DB::table('tumanlar')
-            ->join('viloyatlar', 'tumanlar.viloyat_id', '=', 'viloyatlar.id')
-            ->where('tumanlar.id', $get_tuman_id)
-            ->get();
-
         $maydonlar = DB::table('maydonlar')
             ->join('tumanlar', 'maydonlar.tuman_id', '=', 'tumanlar.id')
+            ->join('viloyatlar', 'tumanlar.viloyat_id', '=', 'viloyatlar.id')
             ->get();
 
-        if($get_viloyat->isEmpty()){
+        if($maydonlar->isEmpty()){
             return response([
                 'data' => 'Not found',
                 'status' => 'error',
             ], Response::HTTP_NOT_FOUND);
         } else {
             return response([
-                'data' => [[$get_viloyat,$maydonlar]],
+                'data' => $maydonlar,
                 'status' => 'success',
             ], Response::HTTP_OK);
         }

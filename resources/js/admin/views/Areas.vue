@@ -187,11 +187,11 @@
                                     </tfoot>
                                     <tbody>
                                     <tr class="odd" v-for="(area, idx) in allAreas">
-                                        <td class="sorting_1">{{ area[0][0].id }}</td>
-                                        <td>{{ area[1][0].maydon_nomi }}</td>
-                                        <td>{{ area[1][0].maydon_lokatsiyasi }}</td>
-                                        <td>{{ area[1][0].tuman_nomi }}</td>
-                                        <td>{{ area[0][0].viloyat_nomi }}</td>
+                                        <td class="sorting_1">{{ area.id }}</td>
+                                        <td>{{ area.maydon_nomi }}</td>
+                                        <td>{{ area.maydon_lokatsiyasi }}</td>
+                                        <td>{{ area.tuman_nomi }}</td>
+                                        <td>{{ area.viloyat_nomi }}</td>
                                         <td>
                                             <button
                                                 data-toggle="modal" data-target="#updateUserModal"

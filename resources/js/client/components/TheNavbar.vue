@@ -3,7 +3,7 @@
         <nav>
             <div class="navbar-left">
                 <div class="navbar-left__img">
-                    <img src="/assets/main-page/img/logo.png" alt="LOGO">
+                    <img src="/assets/img/logo-blck.png" alt="LOGO">
                 </div>
             </div>
             <div class="navbar-right">

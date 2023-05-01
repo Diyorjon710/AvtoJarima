@@ -451,6 +451,18 @@ export default {
     },
 
     methods: {
+        deleteUser(id) {
+            axios
+                .delete('/api/delete-user/' + id)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                    // this.error = true;
+                })
+        },
+
         addNewUser() {
             axios
                 .post('/api/create-user', {
@@ -467,7 +479,7 @@ export default {
 
         updateUser() {
             axios
-                .post('/api/update-user/' + this.updateUserInfo[0].id, {
+                .put('/api/update-user/' + this.updateUserInfo[0].id, {
                     user: this.updateUserInfo[0]
                 })
                 .then(res => {

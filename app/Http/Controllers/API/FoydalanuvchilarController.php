@@ -52,7 +52,7 @@ class FoydalanuvchilarController extends Controller
      */
     public function index()
     {
-        $foydalanuvchilar = DB::table('users')
+        $foydalanuvchilar = User::select('users.*', 'viloyatlar.viloyat_nomi as viloyat_name','viloyatlar.viloyat_raqami' ,'tumanlar.tuman_nomi as tuman_name', 'maydonlar.maydon_nomi as maydon_name','maydonlar.maydon_lokatsiyasi')
             ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
             ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
             ->join('maydonlar', 'users.maydon_id', '=', 'maydonlar.id')

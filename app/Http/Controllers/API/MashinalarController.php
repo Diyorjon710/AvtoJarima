@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mashinalar;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +16,10 @@ class MashinalarController extends Controller
     public function search(Request $request) {
         $query = $request->get('query');
 
-        $mashinalar = DB::table('mashinalar')
-            ->join('viloyatlar', 'mashinalar.viloyat_id', '=', 'viloyatlar.id')
-            ->join('tumanlar', 'mashinalar.tuman_id', '=', 'tumanlar.id')
-            ->join('maydonlar', 'mashinalar.maydon_id', '=', 'maydonlar.id')
+        $mashinalar = Mashinalar::select('mashinalar.*', 'viloyatlar.viloyat_nomi as viloyat_name','viloyatlar.viloyat_raqami' ,'tumanlar.tuman_nomi as tuman_name', 'maydonlar.maydon_nomi as maydon_name','maydonlar.maydon_lokatsiyasi')
+            ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
+            ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
+            ->join('maydonlar', 'users.maydon_id', '=', 'maydonlar.id')
             ->where('car_name', 'LIKE', "%{$query}%")
             ->orWhere('car_number', 'LIKE', "%{$query}%")
             ->orWhere('car_jarimasi', 'LIKE', "%{$query}%")

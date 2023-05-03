@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Maydonlar;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,9 +43,9 @@ class MaydonlarController extends Controller
      */
     public function index()
     {
-        $maydonlar = DB::table('maydonlar')
-            ->join('tumanlar', 'maydonlar.tuman_id', '=', 'tumanlar.id')
-            ->join('viloyatlar', 'tumanlar.viloyat_id', '=', 'viloyatlar.id')
+        $maydonlar = Maydonlar::select('maydonlar.*', 'viloyatlar.viloyat_nomi as viloyat_name','viloyatlar.viloyat_raqami' ,'tumanlar.tuman_nomi as tuman_name')
+            ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
+            ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
             ->get();
 
         if($maydonlar->isEmpty()){

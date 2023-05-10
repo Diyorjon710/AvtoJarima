@@ -14,8 +14,9 @@ class MaydonlarController extends Controller
     public function search(Request $request) {
         $query = $request->get('query');
 
-        $maydonlar = DB::table('maydonlar')
+        $maydonlar = Maydonlar::select('maydonlar.*', 'viloyatlar.viloyat_nomi as viloyat_name','viloyatlar.viloyat_raqami' ,'tumanlar.tuman_nomi as tuman_name')
             ->join('tumanlar', 'maydonlar.tuman_id', '=', 'tumanlar.id')
+            ->join('viloyatlar', 'tumanlar.viloyat_id', '=', 'viloyatlar.id')
             ->where('maydon_nomi', 'LIKE', "%{$query}%")
             ->orWhere('maydon_lokatsiyasi', 'LIKE', "%{$query}%")
             ->orWhere('maydonlar.created_at', 'LIKE', "%{$query}%")
@@ -44,8 +45,8 @@ class MaydonlarController extends Controller
     public function index()
     {
         $maydonlar = Maydonlar::select('maydonlar.*', 'viloyatlar.viloyat_nomi as viloyat_name','viloyatlar.viloyat_raqami' ,'tumanlar.tuman_nomi as tuman_name')
-            ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
-            ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
+            ->join('tumanlar', 'maydonlar.tuman_id', '=', 'tumanlar.id')
+            ->join('viloyatlar', 'tumanlar.viloyat_id', '=', 'viloyatlar.id')
             ->get();
 
         if($maydonlar->isEmpty()){

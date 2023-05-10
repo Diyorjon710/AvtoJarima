@@ -40,6 +40,7 @@ Route::post('search-user', [FoydalanuvchilarController::class, 'search']);
 Route::post('create-user', [FoydalanuvchilarController::class, 'store']);
 Route::put('update-user/{id}', [FoydalanuvchilarController::class, 'update']);
 Route::delete('delete-user/{id}', [FoydalanuvchilarController::class, 'destroy']);
+Route::get('/users-export', [FoydalanuvchilarController::class, 'export']);
 
 /* CRUD Areas */
 Route::post('search-area', [MaydonlarController::class, 'search']);

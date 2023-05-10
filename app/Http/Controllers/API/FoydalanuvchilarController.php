@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 
 class FoydalanuvchilarController extends Controller
 {
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+
     public function search(Request $request) {
         $query = $request->get('query');
 
-        $foydalanuvchilar = DB::table('users')
+        $foydalanuvchilar = User::select('users.*', 'viloyatlar.viloyat_nomi as viloyat_name','viloyatlar.viloyat_raqami' ,'tumanlar.tuman_nomi as tuman_name', 'maydonlar.maydon_nomi as maydon_name','maydonlar.maydon_lokatsiyasi')
             ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
             ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
             ->join('maydonlar', 'users.maydon_id', '=', 'maydonlar.id')
@@ -28,7 +35,7 @@ class FoydalanuvchilarController extends Controller
             ->orWhere('viloyatlar.viloyat_nomi', 'LIKE', "%{$query}%")
             ->orWhere('tumanlar.tuman_nomi', 'LIKE', "%{$query}%")
             ->orWhere('maydonlar.maydon_nomi', 'LIKE', "%{$query}%")
-            ->get();
+            ->orderBy('users.id', 'ASC')->get();
 
 
         if($foydalanuvchilar->isEmpty()) {
@@ -56,7 +63,7 @@ class FoydalanuvchilarController extends Controller
             ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
             ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
             ->join('maydonlar', 'users.maydon_id', '=', 'maydonlar.id')
-            ->get();
+            ->orderBy('users.id', 'ASC')->get();
 
         if($foydalanuvchilar->isEmpty()){
             return response([
@@ -185,6 +192,20 @@ class FoydalanuvchilarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        if($user) {
+            $user->delete();
+
+            return response([
+                'data' => $user,
+                'status' => 'success',
+            ], Response::HTTP_OK);
+        } else {
+            return response([
+                'data' => 'Not found',
+                'status' => 'error',
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 }

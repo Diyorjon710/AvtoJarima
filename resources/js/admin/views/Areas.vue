@@ -186,12 +186,12 @@
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    <tr class="odd" v-for="(area, idx) in allAreas">
+                                    <tr class="odd" v-for="area in allAreas" :key="area.id">
                                         <td class="sorting_1">{{ area.id }}</td>
                                         <td>{{ area.maydon_nomi }}</td>
                                         <td>{{ area.maydon_lokatsiyasi }}</td>
-                                        <td>{{ area.tuman_nomi }}</td>
-                                        <td>{{ area.viloyat_nomi }}</td>
+                                        <td>{{ area.tuman_name }}</td>
+                                        <td>{{ area.viloyat_name }}</td>
                                         <td>
                                             <button
                                                 data-toggle="modal" data-target="#updateUserModal"
@@ -289,6 +289,7 @@ export default {
                 })
                 .then(res => {
                     this.allAreas = res.data.data;
+                    console.log(this.allAreas)
                 })
                 .catch(err => {
                     console.log(err);

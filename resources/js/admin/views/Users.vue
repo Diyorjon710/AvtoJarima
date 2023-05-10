@@ -35,7 +35,7 @@
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div id="dataTable_filter" class="dataTables_filter" style="text-align: right;">
                                     <label>
-                                        <a href="http://admin.localhost:8000/api/users-export" class="btn btn-success btn-sm mr-3">
+                                        <a href="http://admin.avtojarima.loc/api/users-export" class="btn btn-success btn-sm mr-3">
                                             Yuklab olish
                                         </a>
                                         <button data-toggle="modal" data-target="#addUserModal" class="btn btn-primary btn-sm">
@@ -334,9 +334,9 @@
                                         <td>{{ user.password }}</td>
                                         <td>{{ user.role }}</td>
                                         <td>{{ user.permissions }}</td>
-                                        <td>{{ user.viloyat_nomi }}</td>
-                                        <td>{{ user.tuman_nomi }}</td>
-                                        <td>{{ user.maydon_nomi }}</td>
+                                        <td>{{ user.viloyat_name }}</td>
+                                        <td>{{ user.tuman_name }}</td>
+                                        <td>{{ user.maydon_name }}</td>
                                         <td>
                                             <button
                                                 @click="updateUserInfo[0].id = user.id"
@@ -346,7 +346,9 @@
                                                 <i class="fas fa-light fa-pen"></i>
                                             </button>
 
-                                            <button class="btn btn-circle btn-sm btn-danger">
+                                            <button
+                                                @click="deleteUser(user.id)"
+                                                class="btn btn-circle btn-sm btn-danger">
                                                 <i class="fas fa-trash"></i>
                                             </button>
 
@@ -452,15 +454,18 @@ export default {
 
     methods: {
         deleteUser(id) {
-            axios
-                .delete('/api/delete-user/' + id)
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(err => {
-                    console.log(err);
-                    // this.error = true;
-                })
+            if(confirm('Haqiqatan ham ushbu foydalanuvchini o\'chirmoqchimisiz?')) {
+                axios
+                    .delete('/api/delete-user/' + id)
+                    .then(res => {
+                        this.getAllUsers();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            } else {
+                return false;
+            }
         },
 
         addNewUser() {
@@ -470,6 +475,8 @@ export default {
                 })
                 .then(res => {
                     console.log(res);
+                    this.getAllUsers();
+                    this.error = false;
                 })
                 .catch(err => {
                     console.log(err);
@@ -483,7 +490,8 @@ export default {
                     user: this.updateUserInfo[0]
                 })
                 .then(res => {
-                    console.log(res);
+                    this.getAllUsers();
+                    this.error = false;
                 })
                 .catch(err => {
                     console.log(err);

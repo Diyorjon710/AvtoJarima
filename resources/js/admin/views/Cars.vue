@@ -35,7 +35,7 @@
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div id="dataTable_filter" class="dataTables_filter" style="text-align: right;">
                                     <label>
-                                        <a href="http://admin.localhost:8000/api/users-export" class="btn btn-success btn-sm mr-3">
+                                        <a href="http://avtojarima.loc/api/cars-export" class="btn btn-success btn-sm mr-3">
                                             Yuklab olish
                                         </a>
                                         <button data-toggle="modal" data-target="#addUserModal" class="btn btn-primary btn-sm">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-<!--                        <p style="color: red;">error text here</p>-->
+                        <p style="color: red;" v-if="error">OOPS, something went wrong</p>
 
                         <div class="modal fade" id="addUserModal">
                             <div class="modal-dialog">
@@ -57,12 +57,31 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        Ismi
-                                        <input type="text" autocomplete="off" required class="form-control mb-3">
-                                        Email
-                                        <input type="email" autocomplete="off" required class="form-control mb-3">
-                                        Parol
-                                        <input type="password" autocomplete="off" required class="form-control mb-3">
+                                        Mashina nomi
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newCarInfo[0].car_name">
+                                        Raqami
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newCarInfo[0].car_number">
+                                        Ma'muriy javobgarlik
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newCarInfo[0].car_jarimasi">
+                                        Jarima narxi
+                                        <input type="number" autocomplete="off" required class="form-control mb-3" v-model="newCarInfo[0].car_jarima_narxi">
+                                        Viloyat
+                                        <select name="" id="" v-model="newCarInfo[0].viloyat_id">
+                                            <option v-for="country in countryCodes" :key="country.id" :value="country.id">{{ country.name }}</option>
+                                        </select> <br> <br>
+                                        Tuman
+                                        <select name="" id="" v-model="newCarInfo[0].tuman_id">
+                                            <option value="1">Chilonzor</option>
+                                            <option value="1">Sergeli</option>
+                                            <option value="1">Bodomzor</option>
+                                        </select> <br> <br>
+                                        Maydon
+                                        <select name="" id="" v-model="newCarInfo[0].maydon_id">
+                                            <option value="1">Qumariq 12/1</option>
+                                            <option value="1">Toshariq 1/12</option>
+                                        </select> <br> <br>
+                                        Rasm
+                                        <input type="file" autocomplete="off" required class="form-control-file mb-3" @change="previewFile">
                                     </div>
                                     <div class="modal-footer">
                                         <button @click="addNewCar" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
@@ -79,15 +98,34 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        Ismi
-                                        <input autocomplete="off" required type="text" class="form-control mb-3">
-                                        Email
-                                        <input autocomplete="off" required type="email" class="form-control mb-3">
-                                        Parol
-                                        <input autocomplete="off" required type="password" class="form-control mb-3">
+                                        Mashina nomi
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="updateCarInfo[0].car_name">
+                                        Raqami
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="updateCarInfo[0].car_number">
+                                        Ma'muriy javobgarlik
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="updateCarInfo[0].car_jarimasi">
+                                        Jarima narxi
+                                        <input type="number" autocomplete="off" required class="form-control mb-3" v-model="updateCarInfo[0].car_jarima_narxi">
+                                        Viloyat
+                                        <select name="" id="" v-model="updateCarInfo[0].viloyat_id">
+                                            <option v-for="country in countryCodes" :key="country.id" :value="country.id">{{ country.name }}</option>
+                                        </select> <br> <br>
+                                        Tuman
+                                        <select name="" id="" v-model="updateCarInfo[0].tuman_id">
+                                            <option value="1">Chilonzor</option>
+                                            <option value="1">Sergeli</option>
+                                            <option value="1">Bodomzor</option>
+                                        </select> <br> <br>
+                                        Maydon
+                                        <select name="" id="" v-model="updateCarInfo[0].maydon_id">
+                                            <option value="1">Qumariq 12/1</option>
+                                            <option value="1">Toshariq 1/12</option>
+                                        </select> <br> <br>
+                                        Rasm
+                                        <input type="file" autocomplete="off" required class="form-control-file mb-3" @change="updateImage">
                                     </div>
                                     <div class="modal-footer">
-                                        <button @click="updateUser" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
+                                        <button @click="updateCar" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
                                     </div>
                                 </div>
                             </div>
@@ -246,26 +284,33 @@
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    <tr class="odd" v-for="(car, idx) in allCars">
+                                    <tr class="odd" v-for="car in allCars" :key="car.id">
                                         <td class="sorting_1">{{ car.id }}</td>
-                                        <td>{{ car.car_image }}</td>
+                                        <td>
+                                            <span>
+                                                <img :src="'/assets/car-info-page/'+car.car_image" alt="image" style="width: 100px;">
+                                            </span>
+                                        </td>
                                         <td>{{ car.car_name }}</td>
                                         <td>{{ car.car_number }}</td>
                                         <td>{{ car.car_jarimasi }}</td>
                                         <td>{{ car.car_jarima_narxi }}</td>
-                                        <td>{{ car.maydon_nomi }}</td>
-                                        <td>{{ car.tuman_nomi }}</td>
-                                        <td>{{ car.viloyat_nomi }}</td>
+                                        <td>{{ car.maydon_name }}</td>
+                                        <td>{{ car.tuman_name }}</td>
+                                        <td>{{ car.viloyat_name }}</td>
                                         <td>{{ car.created_at }}</td>
                                         <td>
                                             <button
+                                                @click="updateCarInfo[0].id = car.id"
                                                 data-toggle="modal" data-target="#updateUserModal"
                                                 class="btn btn-circle btn-sm btn-primary mr-2"
                                             >
                                                 <i class="fas fa-light fa-pen"></i>
                                             </button>
 
-                                            <button class="btn btn-circle btn-sm btn-danger">
+                                            <button
+                                                @click="deleteCar(car.id)"
+                                                class="btn btn-circle btn-sm btn-danger">
                                                 <i class="fas fa-trash"></i>
                                             </button>
 
@@ -313,22 +358,52 @@ export default {
 
     data() {
         return {
+            error: false,
             searchValue: '',
             allCars: [],
             links: [],
-            newUserInfo: {
-                name: '',
-                email: '',
-                password: '',
-            },
-            updateUserInfo: [
+            newCarInfo: [
                 {
-                    user_id: '',
-                    name: '',
-                    email: '',
-                    password: '',
+                    car_name: '',
+                    car_number: '',
+                    car_jarimasi: '',
+                    car_jarima_narxi: 0,
+                    car_image: [],
+                    maydon_id: null,
+                    tuman_id: null,
+                    viloyat_id: null,
                 }
             ],
+            updateCarInfo: [
+                {
+                    id: null,
+                    car_name: '',
+                    car_number: '',
+                    car_jarimasi: '',
+                    car_jarima_narxi: 0,
+                    car_image: [],
+                    maydon_id: null,
+                    tuman_id: null,
+                    viloyat_id: null,
+                }
+            ],
+
+            countryCodes: [
+                {id: 1, code: '01', name: 'Toshkent shahar', selected: true},
+                {id: 2, code: '10', name: 'Toshkent viloyati'},
+                {id: 3, code: '20', name: 'Sirdaryo viloyati'},
+                {id: 4, code: '25', name: 'Jizzax viloyati'},
+                {id: 5, code: '30', name: 'Samarqand viloyati'},
+                {id: 6, code: '40', name: 'Farg\'ona viloyati'},
+                {id: 7, code: '50', name: 'Namangan viloyati'},
+                {id: 8, code: '60', name: 'Andijon viloyati'},
+                {id: 9, code: '70', name: 'Qashqadaryo viloyati'},
+                {id: 10, code: '75', name: 'Surxondaryo viloyati'},
+                {id: 11, code: '80', name: 'Buxoro viloyati'},
+                {id: 12, code: '85', name: 'Navoiy viloyati'},
+                {id: 13, code: '90', name: 'Xorazm viloyati'},
+                {id: 14, code: '95', name: 'Qoraqalpog\'iston Respublikasi'},
+            ]
         }
     },
 
@@ -337,6 +412,85 @@ export default {
     },
 
     methods: {
+        updateImage(event) {
+            this.updateCarInfo[0].car_image = event.target.files[0];
+            console.log(this.updateCarInfo[0].car_image);
+        },
+
+        previewFile(event) {
+            this.newCarInfo[0].car_image = event.target.files[0];
+            console.log(this.newCarInfo[0].car_image);
+        },
+
+        deleteCar(id) {
+            if(confirm('Chindan ham o\'chirmoqchimisiz ?')) {
+                axios.delete(`/api/delete-car/${id}`)
+                    .then(res => {
+                        this.getAllCars();
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }
+        },
+
+        addNewCar() {
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+
+            let formData = new FormData();
+            formData.append('car_name', this.newCarInfo[0].car_name);
+            formData.append('car_number', this.newCarInfo[0].car_number);
+            formData.append('car_jarimasi', this.newCarInfo[0].car_jarimasi);
+            formData.append('car_jarima_narxi', this.newCarInfo[0].car_jarima_narxi);
+            formData.append('car_image', this.newCarInfo[0].car_image);
+            formData.append('maydon_id', this.newCarInfo[0].maydon_id);
+            formData.append('tuman_id', this.newCarInfo[0].tuman_id);
+            formData.append('viloyat_id', this.newCarInfo[0].viloyat_id);
+            console.log(formData);
+
+            axios.post('/api/create-car', formData, config)
+                .then(res => {
+                    console.log(res);
+                    this.getAllCars();
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+        updateCar() {
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+
+            let formData2 = new FormData();
+            formData2.append('id', this.updateCarInfo[0].id);
+            formData2.append('car_name', this.updateCarInfo[0].car_name);
+            formData2.append('car_number', this.updateCarInfo[0].car_number);
+            formData2.append('car_jarimasi', this.updateCarInfo[0].car_jarimasi);
+            formData2.append('car_jarima_narxi', this.updateCarInfo[0].car_jarima_narxi);
+            formData2.append('car_image', this.updateCarInfo[0].car_image);
+            formData2.append('maydon_id', this.updateCarInfo[0].maydon_id);
+            formData2.append('tuman_id', this.updateCarInfo[0].tuman_id);
+            formData2.append('viloyat_id', this.updateCarInfo[0].viloyat_id);
+
+            axios.post('/api/update-car/' + this.updateCarInfo[0].id, formData2, config)
+                .then(res => {
+                    console.log(res);
+                    this.getAllCars();
+                })
+                .catch(err => {
+                    // console.log(err);
+                    console.log(formData2)
+                })
+        },
+
         searchCar() {
             axios.post('/api/search-car', {
                 query: this.searchValue

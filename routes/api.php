@@ -32,8 +32,9 @@ Route::get('all-areas', [MaydonlarController::class, 'index']);
 /* CRUD Cars */
 Route::post('search-car', [MashinalarController::class, 'search']);
 Route::post('create-car', [MashinalarController::class, 'store']);
-Route::put('update-car/{id}', [MashinalarController::class, 'update']);
+Route::post('update-car/{id}', [MashinalarController::class, 'update']);
 Route::delete('delete-car/{id}', [MashinalarController::class, 'destroy']);
+Route::get('cars-export', [MashinalarController::class, 'export']);
 
 /* CRUD Users */
 Route::post('search-user', [FoydalanuvchilarController::class, 'search']);
@@ -47,3 +48,4 @@ Route::post('search-area', [MaydonlarController::class, 'search']);
 Route::post('create-area', [MaydonlarController::class, 'store']);
 Route::put('update-area/{id}', [MaydonlarController::class, 'update']);
 Route::delete('delete-area/{id}', [MaydonlarController::class, 'destroy']);
+Route::get('/areas-export', [MaydonlarController::class, 'export']);

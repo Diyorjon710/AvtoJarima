@@ -27,7 +27,7 @@
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
 
-                                    <button @click.stop.prevent="getAllUsers" class="btn btn-success btn-sm ml-2">
+                                    <button @click.stop.prevent="getAllAreas" class="btn btn-success btn-sm ml-2">
                                         <i class="fas fa fa-history fa-sm"></i>
                                     </button>
                                 </form>
@@ -35,12 +35,12 @@
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div id="dataTable_filter" class="dataTables_filter" style="text-align: right;">
                                     <label>
-                                        <a href="http://admin.localhost:8000/api/users-export" class="btn btn-success btn-sm mr-3">
+                                        <a href="http://avtojarima.loc/api/areas-export" class="btn btn-success btn-sm mr-3">
                                             Yuklab olish
                                         </a>
                                         <button data-toggle="modal" data-target="#addUserModal" class="btn btn-primary btn-sm">
                                             <i class="fas fa-plus fa-sm"></i>
-                                            Yangi mashina qo'shish
+                                            Yangi maydon qo'shish
                                         </button>
                                     </label>
                                 </div>
@@ -53,19 +53,23 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Yangi mashina qo'shish</h4>
+                                        <h4 class="modal-title">Yangi maydon qo'shish</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        Ismi
-                                        <input type="text" autocomplete="off" required class="form-control mb-3">
-                                        Email
-                                        <input type="email" autocomplete="off" required class="form-control mb-3">
-                                        Parol
-                                        <input type="password" autocomplete="off" required class="form-control mb-3">
+                                        Maydon nomi
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="newAreaInfo[0].maydon_nomi">
+                                        Lokatsiyasi
+                                        <input type="email" autocomplete="off" required class="form-control mb-3" v-model="newAreaInfo[0].maydon_lokatsiyasi">
+                                        Tuman
+                                        <select name="" id="" v-model="newAreaInfo[0].tuman_id">
+                                            <option value="1">Chilonzor</option>
+                                            <option value="1">Sergeli</option>
+                                            <option value="1">Bodomzor</option>
+                                        </select> <br> <br>
                                     </div>
                                     <div class="modal-footer">
-                                        <button @click="addNewUser" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
+                                        <button @click="addNewArea" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
                                     </div>
                                 </div>
                             </div>
@@ -75,19 +79,23 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Mashinani yangilash</h4>
+                                        <h4 class="modal-title">Maydonni yangilash</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        Ismi
-                                        <input autocomplete="off" required type="text" class="form-control mb-3">
-                                        Email
-                                        <input autocomplete="off" required type="email" class="form-control mb-3">
-                                        Parol
-                                        <input autocomplete="off" required type="password" class="form-control mb-3">
+                                        Maydon nomi
+                                        <input type="text" autocomplete="off" required class="form-control mb-3" v-model="updateAreaInfo[0].maydon_nomi">
+                                        Lokatsiyasi
+                                        <input type="email" autocomplete="off" required class="form-control mb-3" v-model="updateAreaInfo[0].maydon_lokatsiyasi">
+                                        Tuman
+                                        <select name="" id="" v-model="updateAreaInfo[0].tuman_id">
+                                            <option value="1">Chilonzor</option>
+                                            <option value="1">Sergeli</option>
+                                            <option value="1">Bodomzor</option>
+                                        </select> <br> <br>
                                     </div>
                                     <div class="modal-footer">
-                                        <button @click="updateUser" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
+                                        <button @click="updateArea" type="button" class="btn btn-primary" data-dismiss="modal">Saqlash</button>
                                     </div>
                                 </div>
                             </div>
@@ -194,13 +202,16 @@
                                         <td>{{ area.viloyat_name }}</td>
                                         <td>
                                             <button
+                                                @click="updateAreaInfo[0].id = area.id"
                                                 data-toggle="modal" data-target="#updateUserModal"
                                                 class="btn btn-circle btn-sm btn-primary mr-2"
                                             >
                                                 <i class="fas fa-light fa-pen"></i>
                                             </button>
 
-                                            <button class="btn btn-circle btn-sm btn-danger">
+                                            <button
+                                                @click="deleteArea(area.id)"
+                                                class="btn btn-circle btn-sm btn-danger">
                                                 <i class="fas fa-trash"></i>
                                             </button>
 
@@ -251,17 +262,17 @@ export default {
             searchValue: '',
             allAreas: [],
             links: [],
-            newUserInfo: {
-                name: '',
-                email: '',
-                password: '',
-            },
-            updateUserInfo: [
+            newAreaInfo: [{
+                maydon_nomi: '',
+                maydon_lokatsiyasi: '',
+                tuman_id: null,
+            }],
+            updateAreaInfo: [
                 {
-                    user_id: '',
-                    name: '',
-                    email: '',
-                    password: '',
+                    id: null,
+                    maydon_nomi: '',
+                    maydon_lokatsiyasi: '',
+                    tuman_id: '',
                 }
             ],
         }
@@ -290,6 +301,51 @@ export default {
                 .then(res => {
                     this.allAreas = res.data.data;
                     console.log(this.allAreas)
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.allAreas = [];
+                })
+        },
+
+        addNewArea() {
+            axios
+                .post('/api/create-area', {
+                    maydon_nomi: this.newAreaInfo[0].maydon_nomi,
+                    maydon_lokatsiyasi: this.newAreaInfo[0].maydon_lokatsiyasi,
+                    tuman_id: this.newAreaInfo[0].tuman_id,
+                })
+                .then(res => {
+                    this.getAllAreas();
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+        updateArea() {
+            axios
+                .put('/api/update-area/' + this.updateAreaInfo[0].id, {
+                    maydon_nomi: this.updateAreaInfo[0].maydon_nomi,
+                    maydon_lokatsiyasi: this.updateAreaInfo[0].maydon_lokatsiyasi,
+                    tuman_id: this.updateAreaInfo[0].tuman_id,
+                })
+                .then(res => {
+                    console.log(res.data)
+                    this.getAllAreas();
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+        deleteArea(id) {
+            if(!confirm('Are you sure?')) return false;
+
+            axios
+                .delete('/api/delete-area/' + id)
+                .then(res => {
+                    this.getAllAreas();
                 })
                 .catch(err => {
                     console.log(err);

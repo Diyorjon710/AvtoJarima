@@ -35,7 +35,7 @@
                             <div class="col-sm-12 col-md-6 mt-2">
                                 <div id="dataTable_filter" class="dataTables_filter" style="text-align: right;">
                                     <label>
-                                        <a href="http://admin.avtojarima.loc/api/users-export" class="btn btn-success btn-sm mr-3">
+                                        <a href="http://avtojarima.loc/api/users-export" class="btn btn-success btn-sm mr-3">
                                             Yuklab olish
                                         </a>
                                         <button data-toggle="modal" data-target="#addUserModal" class="btn btn-primary btn-sm">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-<!--                        <p style="color: red;">error text here</p>-->
+                        <p style="color: red;" v-if="error">OOPS, something went wrong</p>
 
                         <div class="modal fade" id="addUserModal">
                             <div class="modal-dialog">
@@ -509,6 +509,7 @@ export default {
                 })
                 .catch(err => {
                     console.log(err);
+                    this.allUsers = [];
                 })
         },
 

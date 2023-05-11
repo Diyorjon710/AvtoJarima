@@ -32,7 +32,7 @@
 
                         <div class="right-info__text">
                             <div class="text-key">Maydon manzili:</div>
-                            <div class="text-value">{{ getCarData.viloyat_nomi.split(' ')[0] }} sh. {{ getCarData.tuman_nomi }} t. {{ getCarData.maydon_nomi }}</div>
+                            <div class="text-value">{{ getCarData.viloyat_nomi }} sh. {{ getCarData.tuman_nomi }} t. {{ getCarData.maydon_nomi }}</div>
                         </div>
 
                     </div>

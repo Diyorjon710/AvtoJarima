@@ -14,4 +14,15 @@ class AreasExport implements FromCollection
     {
         return Maydonlar::all();
     }
+
+    public function headings(): array
+    {
+        return [
+            'id',
+            'maydon_nomi',
+            'maydon_lokatsiyasi',
+            'created_at',
+            'updated_at',
+        ];
+    }
 }

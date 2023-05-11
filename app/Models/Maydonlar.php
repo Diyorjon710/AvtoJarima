@@ -11,6 +11,12 @@ class Maydonlar extends Model
 
     protected $table =  "maydonlar";
 
+    protected $fillable = [
+        'maydon_nomi',
+        'maydon_lokatsiyasi',
+        'tuman_id'
+    ];
+
     public function tumanlar(){
         return $this->hasMany(Tumanlar::class);
     }

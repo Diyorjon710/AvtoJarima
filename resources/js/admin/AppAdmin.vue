@@ -57,7 +57,7 @@
             <hr class="sidebar-divider d-none d-md-block">
 
             <li class="nav-item">
-                <router-link to="/login" class="nav-link">
+                <router-link to="/login" @click="logout" class="nav-link">
                     <i class="fas fa-fw fa-reply-all"></i>
                     <span>chiqish</span>
                 </router-link>
@@ -218,6 +218,12 @@ export default {
         confirmAdmin() {
             this.adminLogged = true
             this.$router.push({name: 'dashboard'})
+        },
+
+        logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('admin');
+            this.adminLogged = false;
         }
     }
 }

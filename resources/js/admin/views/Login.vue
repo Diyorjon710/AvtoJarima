@@ -15,12 +15,12 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Hush kelibsiz!</h1>
                                     </div>
-                                    <p class="text-center text-danger">error text here</p>
+                                    <p class="text-center text-danger">{{ this.error }}</p>
                                     <form class="user" @submit.prevent="login">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="text" class="form-control form-control-user"
                                                    id="exampleInputEmail" aria-describedby="emailHelp"
-                                                   placeholder="Emailni kiriting..." name="email" v-model="username">
+                                                   placeholder="Usernameni kiriting..." name="email" v-model="username">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
@@ -40,12 +40,15 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "Login",
     emits: ['admin-logged'],
 
     data() {
         return {
+            error: '',
             username: '',
             password: '',
         }
@@ -53,14 +56,16 @@ export default {
 
     methods: {
         login() {
-            localStorage.setItem('token', 'token');
-            localStorage.setItem('created_at', JSON.stringify({date: new Date()}));
-            localStorage.setItem('adminData', JSON.stringify({
-                name: 'Admin',
-                email: 'admin@app.com'
-            }))
-
-            this.$emit('admin-logged')
+            axios.post('/api/login', {
+                email: this.username,
+                password: this.password
+            }).then(response => {
+                localStorage.setItem('token', JSON.stringify(response.data.token));
+                this.$emit('admin-logged');
+            }).catch(error => {
+                this.error = error.response.data.message;
+                console.log(error)
+            });
         }
     }
 }

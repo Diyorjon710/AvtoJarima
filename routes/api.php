@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('search-car', [SearchController::class, 'index']);
+Route::post('search-my-car', [SearchController::class, 'index']);
 Route::post('login', [AuthController::class, 'login']);
 
 Route::get('all-cars', [MashinalarController::class, 'index']);

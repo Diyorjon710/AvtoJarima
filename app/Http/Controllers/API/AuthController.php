@@ -17,16 +17,16 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->
-                        where('password',$request->password)->first();
+        if($validated) {
+            $user = User::where('email', $request->email)->where('password',$request->password)->first();
 
-        if($user!=null) {
+            if($user!=null) {
                 return response([
                     'status' => 'success',
                     'user' => $user,
                 ], Response::HTTP_OK);
+            }
         }
-
 
         return response([
             'status' => 'error',

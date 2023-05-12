@@ -20,7 +20,7 @@
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                    id="exampleInputEmail" aria-describedby="emailHelp"
-                                                   placeholder="Usernameni kiriting..." name="email" v-model="username">
+                                                   placeholder="Emailni kiriting..." name="email" v-model="email">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
@@ -49,7 +49,7 @@ export default {
     data() {
         return {
             error: '',
-            username: '',
+            email: '',
             password: '',
         }
     },
@@ -57,10 +57,10 @@ export default {
     methods: {
         login() {
             axios.post('/api/login', {
-                email: this.username,
+                email: this.email,
                 password: this.password
             }).then(response => {
-                localStorage.setItem('token', JSON.stringify(response.data.token));
+                localStorage.setItem('user', JSON.stringify(response.data.user));
                 this.$emit('admin-logged');
             }).catch(error => {
                 this.error = error.response.data.message;

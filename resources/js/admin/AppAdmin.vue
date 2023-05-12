@@ -204,13 +204,13 @@ export default {
     },
 
     created() {
-        if(localStorage.getItem('token') === null) {
+        if(localStorage.getItem('user') === null) {
             this.$router.push({name: 'login'})
         } else {
             this.adminLogged = true
             this.$router.push({name: 'dashboard'})
 
-            this.adminData = JSON.parse(localStorage.getItem('adminData'))
+            this.adminData = JSON.parse(localStorage.getItem('user'))
         }
     },
 
@@ -221,8 +221,7 @@ export default {
         },
 
         logout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('admin');
+            localStorage.clear();
             this.adminLogged = false;
         }
     }

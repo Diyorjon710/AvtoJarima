@@ -3,32 +3,22 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mashinalar;
-use App\Models\Viloyatlar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request) {
         $mainNumber = $request->get('main-number');
         $countryCode = $request->get('country-code');
 
-
-//        $query = DB::table('mashinalar')
-//            ->where('car_number', 'like', "%{$mainNumber}%")
-//            ->join('viloyatlar', 'mashinalar.viloyat_id', '=', 'viloyatlar.id')
-//            ->join('tumanlar', 'mashinalar.tuman_id', '=', 'tumanlar.id')
-//            ->join('maydonlar', 'mashinalar.maydon_id', '=', 'maydonlar.id')
-//            ->where('viloyatlar.viloyat_nomi', 'like', "%{$countryCode}%")
-//            ->get();
-
-        $getViloyatId = Viloyatlar::where('viloyat_nomi', $countryCode)->first()->id;
-
         $query = DB::table('mashinalar')
             ->where('car_number', 'like', "%{$mainNumber}%")
-            ->where('viloyat_id', 'like', "%{$getViloyatId}%")
+            ->join('viloyatlar', 'mashinalar.viloyat_id', '=', 'viloyatlar.id')
+            ->join('tumanlar', 'mashinalar.tuman_id', '=', 'tumanlar.id')
+            ->join('maydonlar', 'mashinalar.maydon_id', '=', 'maydonlar.id')
+            ->where('viloyatlar.viloyat_nomi', 'like', "%{$countryCode}%")
             ->get();
 
         if($query->isEmpty()){
@@ -39,7 +29,7 @@ class SearchController extends Controller
         } else {
             return response([
                 'data' => $query,
-                'status' => 'success',
+                'status' => 'success1',
             ], Response::HTTP_OK);
         }
     }

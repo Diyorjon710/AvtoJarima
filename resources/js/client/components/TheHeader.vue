@@ -114,13 +114,14 @@ export default {
 
         searchCar() {
             axios
-                .post('/api/search-car', {
+                .post('/api/search-my-car', {
                     'main-number': this.carMainNumber.toUpperCase(),
                     'country-code': this.carCountryNumber,
                 })
                 .then(response => {
                     this.$store.state.carData = response.data.data[0]
                     this.$router.push({name: 'Car'})
+                    // console.log(response)
 
                     this.error = false
                 })

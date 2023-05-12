@@ -2,24 +2,29 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exports\CarsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Mashinalar;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\File;
 
 
 class MashinalarController extends Controller
 {
+    public function export() {
+        return Excel::download(new CarsExport, 'cars.xlsx');
+    }
+
     public function search(Request $request) {
         $query = $request->get('query');
 
         $mashinalar = Mashinalar::select('mashinalar.*', 'viloyatlar.viloyat_nomi as viloyat_name','viloyatlar.viloyat_raqami' ,'tumanlar.tuman_nomi as tuman_name', 'maydonlar.maydon_nomi as maydon_name','maydonlar.maydon_lokatsiyasi')
-            ->join('viloyatlar', 'users.viloyat_id', '=', 'viloyatlar.id')
-            ->join('tumanlar', 'users.tuman_id', '=', 'tumanlar.id')
-            ->join('maydonlar', 'users.maydon_id', '=', 'maydonlar.id')
+            ->join('viloyatlar', 'mashinalar.viloyat_id', '=', 'viloyatlar.id')
+            ->join('tumanlar', 'mashinalar.tuman_id', '=', 'tumanlar.id')
+            ->join('maydonlar', 'mashinalar.maydon_id', '=', 'maydonlar.id')
             ->where('car_name', 'LIKE', "%{$query}%")
             ->orWhere('car_number', 'LIKE', "%{$query}%")
             ->orWhere('car_jarimasi', 'LIKE', "%{$query}%")
@@ -51,11 +56,11 @@ class MashinalarController extends Controller
      */
     public function index()
     {
-        $mashinalar = DB::table('mashinalar')
+        $mashinalar = Mashinalar::select('mashinalar.*', 'viloyatlar.viloyat_nomi as viloyat_name','viloyatlar.viloyat_raqami' ,'tumanlar.tuman_nomi as tuman_name', 'maydonlar.maydon_nomi as maydon_name','maydonlar.maydon_lokatsiyasi')
             ->join('viloyatlar', 'mashinalar.viloyat_id', '=', 'viloyatlar.id')
             ->join('tumanlar', 'mashinalar.tuman_id', '=', 'tumanlar.id')
             ->join('maydonlar', 'mashinalar.maydon_id', '=', 'maydonlar.id')
-            ->get();
+            ->orderBy('mashinalar.id', 'ASC')->get();
 
          if($mashinalar->isEmpty()){
             return response([
@@ -97,7 +102,7 @@ class MashinalarController extends Controller
         $tuman_id = $request->get('tuman_id');
         $viloyat_id = $request->get('viloyat_id');
 
-        $image_name = time() . '.' . $image->getClientOriginalName();
+        $image_name = $image->hashName();
         $request->car_image->move(public_path('assets/car-info-page'), $image_name);
 
         $mashina = Mashinalar::create([
@@ -111,11 +116,18 @@ class MashinalarController extends Controller
             'viloyat_id' => $viloyat_id
         ]);
 
-        return response([
-            'status' => 'success',
-            'message' => 'Mashina muvaffaqiyatli saqlandi',
-            'product' => $mashina
-        ], Response::HTTP_OK);
+        if(!$mashina) {
+            return response([
+                'status' => 'error',
+                'message' => 'Mashina saqlanmadi'
+            ], Response::HTTP_BAD_REQUEST);
+        } else {
+            return response([
+                'status' => 'success',
+                'message' => 'Mashina muvaffaqiyatli saqlandi',
+                'product' => $mashina
+            ], Response::HTTP_OK);
+        }
 
     }
 
@@ -150,9 +162,8 @@ class MashinalarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $image = $request->get('car_image');
-//        dd($image);
-        $image_name2 = time() . '.' . $image->getClientOriginalName();
+        $image = $request->file('car_image');
+        $image_name2 = $image->getClientOriginalName();
         $request->car_image->move(public_path('assets/car-info-page/'), $image_name2);
 
         $car = Mashinalar::find($id);
@@ -184,6 +195,16 @@ class MashinalarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $car = Mashinalar::find($id);
+
+        File::delete(public_path('assets/car-info-page/' . $car->car_image));
+
+        $car->delete();
+
+        return response([
+            'status' => 'success',
+            'message' => 'Mashina muvaffaqiyatli o`chirildi',
+            'product' => $car
+        ], Response::HTTP_OK);
     }
 }

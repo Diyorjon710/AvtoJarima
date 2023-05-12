@@ -11,8 +11,6 @@ class Tumanlar extends Model
 
     protected $table =  "tumanlar";
 
-
-
     public function viloyatlar(){
         return $this->hasMany(Viloyatlar::class);
     }

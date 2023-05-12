@@ -21,7 +21,7 @@ class MashinalarSeeder extends Seeder
             'car_number' => 'A123EA',
             'car_jarimasi' => 'Palasani bosgan',
             'car_jarima_narxi' => 120000,
-            'car_image' => 'smpdmkfps.jpg',
+            'car_image' => 'car.png',
             'maydon_id' => 1,
             'viloyat_id' => 1,
             'tuman_id' => 8,

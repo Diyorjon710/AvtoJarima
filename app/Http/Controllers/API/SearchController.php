@@ -16,12 +16,19 @@ class SearchController extends Controller
         $countryCode = $request->get('country-code');
 
 
+//        $query = DB::table('mashinalar')
+//            ->where('car_number', 'like', "%{$mainNumber}%")
+//            ->join('viloyatlar', 'mashinalar.viloyat_id', '=', 'viloyatlar.id')
+//            ->join('tumanlar', 'mashinalar.tuman_id', '=', 'tumanlar.id')
+//            ->join('maydonlar', 'mashinalar.maydon_id', '=', 'maydonlar.id')
+//            ->where('viloyatlar.viloyat_nomi', 'like', "%{$countryCode}%")
+//            ->get();
+
+        $getViloyatId = Viloyatlar::where('viloyat_nomi', $countryCode)->first()->id;
+
         $query = DB::table('mashinalar')
             ->where('car_number', 'like', "%{$mainNumber}%")
-            ->join('viloyatlar', 'mashinalar.viloyat_id', '=', 'viloyatlar.id')
-            ->join('tumanlar', 'mashinalar.tuman_id', '=', 'tumanlar.id')
-            ->join('maydonlar', 'mashinalar.maydon_id', '=', 'maydonlar.id')
-            ->where('viloyatlar.viloyat_nomi', 'like', "%{$countryCode}%")
+            ->where('viloyat_id', 'like', "%{$getViloyatId}%")
             ->get();
 
         if($query->isEmpty()){

@@ -12,25 +12,21 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        if(auth()->attempt($request->all())) {
-            Auth::setUser(auth()->user());
+        $validated = $request->validate([
+            'email' => 'required|string',
+            'password' => 'required',
+        ]);
 
-            $validated = $request->validate([
-                'email' => 'required|string',
-                'password' => 'required',
-            ]);
+        $user = User::where('email', $request->email)->
+                        where('password',$request->password)->first();
 
-//            dd(auth()->user());
-
-            if($validated) {
+        if($user!=null) {
                 return response([
-                    'id' => auth()->user()->id,
                     'status' => 'success',
-                    'user' => auth()->user(),
-                    'access_token' => auth()->user()->createToken('authToken'),
+                    'user' => $user,
                 ], Response::HTTP_OK);
-            }
         }
+
 
         return response([
             'status' => 'error',

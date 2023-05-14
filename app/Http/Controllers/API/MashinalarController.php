@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mashinalar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\File;
@@ -103,7 +104,12 @@ class MashinalarController extends Controller
         $viloyat_id = $request->get('viloyat_id');
 
         $image_name = $image->hashName();
-        $request->car_image->move(public_path('assets/car-info-page'), $image_name);
+
+        Storage::fake('public');
+        Storage::disk('public')->put('assets/car-info-page/' , $image);
+
+        $request->car_image->move(public_path('assets/car-info-page/'), $image_name);
+
 
         $mashina = Mashinalar::create([
             'car_name' => $name,
